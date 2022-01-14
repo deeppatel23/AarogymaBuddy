@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Diagnosis/select_organ.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -42,22 +43,28 @@ class _HomePageState extends State<HomePage> {
           setState(() {});
         },
         child: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextButton(
-                    onPressed: () {
-                      setState(() {
-                        showDes = !showDes;
-                      });
-                    },
-                    child: const Text("View app description")),
-                showDes == true
-                    ? Text(_appDescription == ""
-                        ? "App Description"
-                        : _appDescription)
-                    : Container(),
-              ]),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+              Widget>[
+            TextButton(
+                onPressed: () {
+                  setState(() {
+                    getAppDetails();
+                    showDes = !showDes;
+                  });
+                },
+                child: const Text("Hello Healthcare App")),
+            showDes == true
+                ? Text(
+                    _appDescription == "" ? "App Description" : _appDescription)
+                : Container(),
+            TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SelectOrgan()),
+              ),
+              child: const Text("Select Organ"),
+            ),
+          ]),
         ),
       ),
     );

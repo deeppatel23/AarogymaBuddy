@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcareapp/Login/user_details.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../homepage.dart';
 
@@ -16,25 +18,50 @@ class _LoginState extends State<Login> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   LoginScreen currentState = LoginScreen.SHOW_MOBILE_ENTER_WIDGET;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String verificationID = "";
 
   void SignOutME() async {
     await _auth.signOut();
   }
 
+  /// Check If Document Exists
+  Future<bool> checkIfUserExists() async {
+    try {
+      // Get reference to Firestore collection
+      var collectionRef = FirebaseFirestore.instance.collection('users');
+      var doc = await collectionRef.doc(_auth.currentUser!.uid).get();
+      print(doc.data());
+      print(doc.exists);
+      if (doc.exists) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   void signInWithPhoneAuthCred(AuthCredential phoneAuthCredential) async {
     try {
       final authCred = await _auth.signInWithCredential(phoneAuthCredential);
+      final exists = await checkIfUserExists();
+      print("exists: $exists");
 
       if (authCred.user != null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        if (exists) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => UserDetails()));
+        }
       }
     } on FirebaseAuthException catch (e) {
       print(e.message);
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Some Error Occured. Try Again Later')));
+          const SnackBar(content: Text('Some Error Occured. Try Again Later')));
     }
   }
 

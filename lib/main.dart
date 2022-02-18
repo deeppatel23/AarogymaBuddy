@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:healthcareapp/global.dart';
 import 'homepage.dart';
 import 'Login/register_user.dart';
 
@@ -25,6 +26,8 @@ class MyApp extends StatelessWidget {
 // Assign widget based on availability of currentUser
     if (firebaseUser != null) {
       firstWidget = HomePage();
+      currentUid = firebaseUser.uid;
+      print(currentUid);
     } else {
       firstWidget = const Login();
     }

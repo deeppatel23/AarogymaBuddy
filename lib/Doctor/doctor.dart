@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:healthcareapp/Login/user_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/doctor/error.dart';
+import 'package:healthcareapp/global.dart';
 
 import 'doctor_home.dart';
 
@@ -49,6 +50,7 @@ class _doctorState extends State<doctor> {
       final authCred = await _auth.signInWithCredential(phoneAuthCredential);
       final exists = await checkIfUserExists();
       print("exists: $exists");
+      userType = "doctor";
 
       if (authCred.user != null) {
         if (exists) {

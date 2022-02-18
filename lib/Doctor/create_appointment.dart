@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:healthcareapp/Doctor/doctor_home.dart';
+import 'package:healthcareapp/global.dart';
 
 import '../homepage.dart';
 
@@ -17,6 +18,22 @@ class _CreateAppointmentState extends State<CreateAppointment> {
   TextEditingController startTime = TextEditingController();
   TextEditingController endTime = TextEditingController();
   TextEditingController totalSeats = TextEditingController();
+
+  String name = "";
+  String email = "";
+  String mobile = "";
+  String address = "";
+  String speciality = "";
+  String experience = "";
+  String fee = "";
+  String image = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentDoctorInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,22 +129,37 @@ class _CreateAppointmentState extends State<CreateAppointment> {
     );
   }
 
+  void getCurrentDoctorInfo() async {
+    final uid = currentUid;
+    final doc =
+        await FirebaseFirestore.instance.collection('doctor').doc(uid).get();
+    name = doc['name'];
+    email = doc['email'];
+    mobile = doc['mobile'];
+    address = doc['address'];
+    speciality = doc['speciality'];
+    experience = doc['experience'];
+    fee = doc['fee'];
+    image = doc['image'];
+  }
+
   void createAppointment() async {
+    getCurrentDoctorInfo();
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    User currentUser = await auth.currentUser!;
-    print("User id" + currentUser.uid);
-    _firestore
-        .collection('doctor')
-        .doc(currentUser.uid)
-        .collection('appointments')
-        .doc()
-        .set({
+    _firestore.collection('appointments').doc().set({
       'date': date.text,
       'startTime': startTime.text,
       'endTime': endTime.text,
       'totalSeats': int.parse(totalSeats.text),
       'totalBooking': 0,
+      'doctorId': currentUid,
+      'doctorName': name,
+      'doctorEmail': email,
+      'doctorMobile': mobile,
+      'doctorAddress': address,
+      'doctorSpeciality': speciality,
+      'doctorExperience': experience,
+      'doctorFee': fee,
     }).then(
       (value) => Navigator.push(
         context,

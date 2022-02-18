@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/Appointment/book_appointment.dart';
+import 'package:healthcareapp/homepage.dart';
 
 class PredictDisease extends StatefulWidget {
   final List<String> finalSymptoms;
@@ -126,7 +127,15 @@ class _PredictDiseaseState extends State<PredictDisease> {
                     ),
                   );
                 },
-                child: const Text("Book Appointment"))
+                child: const Text("Book Appointment")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+                child: const Text("Home")),
           ],
         ));
   }

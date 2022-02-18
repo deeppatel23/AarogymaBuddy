@@ -131,6 +131,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
 
   void getCurrentDoctorInfo() async {
     final uid = currentUid;
+    print(currentUid);
     final doc =
         await FirebaseFirestore.instance.collection('doctor').doc(uid).get();
     name = doc['name'];

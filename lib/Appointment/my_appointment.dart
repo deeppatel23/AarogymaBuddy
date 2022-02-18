@@ -23,7 +23,7 @@ class _MyAppointmentState extends State<MyAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('View Appointment'),
+          title: const Text('My Appointment'),
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance

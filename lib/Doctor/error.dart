@@ -31,8 +31,8 @@ class _errorState extends State<error> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      backgroundColor: const Color(0xffd8f3dc),
+      // appBar: AppBar(),
+      // backgroundColor: const Color(0xffd8f3dc),
       body: Stack(
         children: [
           PositionedTransition(

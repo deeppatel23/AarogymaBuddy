@@ -18,93 +18,156 @@ class _UserDetailsState extends State<UserDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('User Details'),
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('images/register.png'), fit: BoxFit.cover),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+
+        // appBar: AppBar(
+        //   title: Text('User Details'),
+        // ),
         body: Form(
-            child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextFormField(
-                  controller: firstNameController,
-                  decoration: const InputDecoration(hintText: 'First name'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'You must enter the first name';
-                    } else if (value.length > 15) {
-                      return 'First name cant have more than 15 letters';
-                    }
-                  },
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 150, top: 130),
+                  child: Text(
+                    'User Details',
+                    style: TextStyle(color: Colors.white, fontSize: 33),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextFormField(
-                  controller: lastNameController,
-                  decoration: const InputDecoration(hintText: 'Last name'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'You must enter the Last name';
-                    } else if (value.length > 15) {
-                      return 'Last name cant have more than 15 letters';
-                    }
-                  },
+                SizedBox(
+                  height: 70,
                 ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(12.0),
-              //   child: TextFormField(
-              //     controller: mobile,
-              //     decoration: const InputDecoration(hintText: 'mobile'),
-              //     validator: (value) {
-              //       if (value!.isEmpty) {
-              //         return 'You must enter the mobile';
-              //       } else if (value.length > 15) {
-              //         return 'mobile cant have more than 15 letters';
-              //       }
-              //     },
-              //   ),
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextFormField(
-                  controller: aadhar,
-                  decoration: const InputDecoration(hintText: 'aadhar'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'You must enter the first name';
-                    } else if (value.length > 15) {
-                      return 'First name cant have more than 15 letters';
-                    }
-                  },
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextFormField(
+                    controller: firstNameController,
+                    decoration: InputDecoration(
+                      hintText: 'First name',
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'You must enter the first name';
+                      } else if (value.length > 15) {
+                        return 'First name cant have more than 15 letters';
+                      }
+                    },
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextFormField(
-                  controller: email,
-                  decoration: const InputDecoration(hintText: 'email'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'You must enter the first name';
-                    } else if (value.length > 15) {
-                      return 'First name cant have more than 15 letters';
-                    }
-                  },
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextFormField(
+                    controller: lastNameController,
+                    decoration: InputDecoration(
+                      hintText: 'Last name',
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'You must enter the Last name';
+                      } else if (value.length > 15) {
+                        return 'Last name cant have more than 15 letters';
+                      }
+                    },
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                child: Text('Register'),
-                onPressed: () {
-                  validateAndUpload();
-                },
-              )
-            ],
+                // Padding(
+                //   padding: const EdgeInsets.all(12.0),
+                //   child: TextFormField(
+                //     controller: mobile,
+                //     decoration: const InputDecoration(hintText: 'mobile'),
+                //     validator: (value) {
+                //       if (value!.isEmpty) {
+                //         return 'You must enter the mobile';
+                //       } else if (value.length > 15) {
+                //         return 'mobile cant have more than 15 letters';
+                //       }
+                //     },
+                //   ),
+                // ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextFormField(
+                    controller: aadhar,
+                    decoration: InputDecoration(
+                      hintText: 'Aadhar',
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'You must enter the first name';
+                      } else if (value.length > 15) {
+                        return 'First name cant have more than 15 letters';
+                      }
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextFormField(
+                    controller: email,
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'You must enter the first name';
+                      } else if (value.length > 15) {
+                        return 'First name cant have more than 15 letters';
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Color(0xff4c505b),
+                  child: IconButton(
+                      color: Colors.white,
+                      onPressed: () {
+                        validateAndUpload();
+                      },
+                      icon: Icon(
+                        Icons.arrow_forward,
+                      )),
+                )
+                // ElevatedButton(
+                //   child: Text('Registe]r'),
+                //   onPressed: () {
+                //     validateAndUpload();
+                //   },
+                // )
+              ],
+            ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 
   void validateAndUpload() async {

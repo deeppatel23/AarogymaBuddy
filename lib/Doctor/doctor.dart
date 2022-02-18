@@ -1,23 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healthcareapp/doctor/doctor.dart';
-import 'package:healthcareapp/admin/admin.dart';
 import 'package:healthcareapp/Login/user_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healthcareapp/doctor/error.dart';
 
-import '../homepage.dart';
-import '../doctor/doctor.dart';
+import 'doctor_home.dart';
 
 enum LoginScreen { SHOW_MOBILE_ENTER_WIDGET, SHOW_OTP_FORM_WIDGET }
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class doctor extends StatefulWidget {
+  const doctor({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _doctorState createState() => _doctorState();
 }
 
-class _LoginState extends State<Login> {
+class _doctorState extends State<doctor> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
   LoginScreen currentState = LoginScreen.SHOW_MOBILE_ENTER_WIDGET;
@@ -32,7 +30,7 @@ class _LoginState extends State<Login> {
   Future<bool> checkIfUserExists() async {
     try {
       // Get reference to Firestore collection
-      var collectionRef = FirebaseFirestore.instance.collection('users');
+      var collectionRef = FirebaseFirestore.instance.collection('doctor');
       var doc = await collectionRef.doc(_auth.currentUser!.uid).get();
       print(doc.data());
       print(doc.exists);
@@ -55,10 +53,10 @@ class _LoginState extends State<Login> {
       if (authCred.user != null) {
         if (exists) {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
+              context, MaterialPageRoute(builder: (context) => doctorHome()));
         } else {
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => UserDetails()));
+              context, MaterialPageRoute(builder: (context) => error()));
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -131,24 +129,6 @@ class _LoginState extends State<Login> {
                   codeAutoRetrievalTimeout: (verificationID) async {});
             },
             child: Text("Send OTP"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => doctor()),
-              );
-            },
-            child: Text("Are u a doc?"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => admin()),
-              );
-            },
-            child: Text("Are u an admin?"),
           ),
           SizedBox(
             height: 16,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/Diagnosis/skin_prediction.dart';
+import 'package:healthcareapp/Doctor/create_appointment.dart';
+import 'package:healthcareapp/Doctor/view_appointment.dart';
 import 'package:healthcareapp/Login/register_user.dart';
 import 'package:healthcareapp/drawer.dart';
 import 'package:healthcareapp/Diagnosis/select_organ.dart';
@@ -84,16 +86,16 @@ class _doctorHomeState extends State<doctorHome> {
             TextButton(
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SelectOrgan()),
+                MaterialPageRoute(builder: (context) => CreateAppointment()),
               ),
-              child: const Text("Select Organ"),
+              child: const Text("Create Appointment"),
             ),
             TextButton(
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SkinPrediction()),
+                MaterialPageRoute(builder: (context) => ViewAppointment()),
               ),
-              child: const Text("Skin Disease Prediction"),
+              child: const Text("View All Appointment"),
             ),
           ]),
         ),

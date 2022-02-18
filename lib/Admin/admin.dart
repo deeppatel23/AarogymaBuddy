@@ -32,6 +32,7 @@ class _adminState extends State<admin> {
       // Get reference to Firestore collection
       var collectionRef = FirebaseFirestore.instance.collection('admin');
       var doc = await collectionRef.doc(_auth.currentUser!.uid).get();
+      currentUid = _auth.currentUser!.uid;
       print(doc.data());
       print(doc.exists);
       if (doc.exists) {

@@ -33,6 +33,7 @@ class _doctorState extends State<doctor> {
       // Get reference to Firestore collection
       var collectionRef = FirebaseFirestore.instance.collection('doctor');
       var doc = await collectionRef.doc(_auth.currentUser!.uid).get();
+      currentUid = _auth.currentUser!.uid;
       print(doc.data());
       print(doc.exists);
       if (doc.exists) {

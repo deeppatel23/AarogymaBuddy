@@ -35,6 +35,7 @@ class _LoginState extends State<Login> {
       // Get reference to Firestore collection
       var collectionRef = FirebaseFirestore.instance.collection('users');
       var doc = await collectionRef.doc(_auth.currentUser!.uid).get();
+      currentUid = _auth.currentUser!.uid;
       print(doc.data());
       print(doc.exists);
       if (doc.exists) {

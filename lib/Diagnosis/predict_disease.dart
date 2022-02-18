@@ -5,21 +5,28 @@ import 'package:healthcareapp/homepage.dart';
 
 class PredictDisease extends StatefulWidget {
   final List<String> finalSymptoms;
-  String organName;
-  PredictDisease(this.finalSymptoms, this.organName);
+  String organId;
+  PredictDisease(this.finalSymptoms, this.organId);
   @override
   _PredictDiseaseState createState() =>
-      _PredictDiseaseState(this.finalSymptoms, this.organName);
+      _PredictDiseaseState(this.finalSymptoms, this.organId);
 }
 
 class _PredictDiseaseState extends State<PredictDisease> {
   List<String> selectedSymptomsList = [];
+  String _organId = "";
   String _organName = "";
   Map<String, int> priorityMap = {};
   _PredictDiseaseState(List<String> symptoms, String organ) {
     selectedSymptomsList = symptoms;
-    _organName = organ;
+    _organId = organ;
   }
+
+  initState() {
+    super.initState();
+    getOrganName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +39,7 @@ class _PredictDiseaseState extends State<PredictDisease> {
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('diagnosis')
-                      .doc(_organName)
+                      .doc(_organId)
                       .collection("diseases")
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -122,7 +129,7 @@ class _PredictDiseaseState extends State<PredictDisease> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => BookAppointment(
-                        "lungs",
+                        _organName,
                       ),
                     ),
                   );
@@ -138,5 +145,17 @@ class _PredictDiseaseState extends State<PredictDisease> {
                 child: const Text("Home")),
           ],
         ));
+  }
+
+  void getOrganName() async {
+    await FirebaseFirestore.instance
+        .collection('diagnosis')
+        .doc(_organId)
+        .get()
+        .then((value) {
+      setState(() {
+        _organName = value.get("name");
+      });
+    });
   }
 }

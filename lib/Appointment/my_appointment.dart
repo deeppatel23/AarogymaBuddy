@@ -7,22 +7,17 @@ import 'package:healthcareapp/global.dart';
 
 import '../homepage.dart';
 
-class ViewAppointment extends StatefulWidget {
+class MyAppointment extends StatefulWidget {
   @override
-  _ViewAppointmentState createState() => _ViewAppointmentState();
+  _MyAppointmentState createState() => _MyAppointmentState();
 }
 
-class _ViewAppointmentState extends State<ViewAppointment> {
-  String appointmantDate = "";
-  String appointmantStartTime = "";
-  String appointmantEndTime = "";
-  int appointmantTotalSeats = 0;
-  int appointmantTotalBooking = 0;
-
-  // TextEditingController date = TextEditingController();
-  // TextEditingController startTime = TextEditingController();
-  // TextEditingController endTime = TextEditingController();
-  // TextEditingController totalSeats = TextEditingController();
+class _MyAppointmentState extends State<MyAppointment> {
+  String appointmentDate = "";
+  String appointmentStartTime = "";
+  String appointmentEndTime = "";
+  String appointmentDoctor = "";
+  String appointmentDoctorSpeciality = "";
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +27,9 @@ class _ViewAppointmentState extends State<ViewAppointment> {
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection('appointments')
-                .where('doctorId', isEqualTo: currentUid)
+                .collection('users')
+                .doc(currentUid)
+                .collection('bookings')
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -44,11 +40,12 @@ class _ViewAppointmentState extends State<ViewAppointment> {
               }
               return ListView(
                 children: snapshot.data!.docs.map((document) {
-                  appointmantDate = document['date'].toString();
-                  appointmantStartTime = document['startTime'].toString();
-                  appointmantEndTime = document['endTime'].toString();
-                  appointmantTotalSeats = document['totalSeats'];
-                  appointmantTotalBooking = document['totalBooking'];
+                  appointmentDate = document['date'].toString();
+                  appointmentStartTime = document['startTime'].toString();
+                  appointmentEndTime = document['endTime'].toString();
+                  appointmentDoctor = document['doctorName'].toString();
+                  appointmentDoctorSpeciality =
+                      document['doctorSpeciality'].toString();
 
                   return Center(
                     child: Container(
@@ -62,17 +59,17 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                             width: MediaQuery.of(context).size.width / 1.2,
                             height: MediaQuery.of(context).size.height / 6,
                             child: Text("\nDate : " +
-                                appointmantDate +
+                                appointmentDate +
                                 '\n' +
                                 "\n Start Time : " +
-                                appointmantStartTime +
+                                appointmentStartTime +
                                 "\n End Time : " +
-                                appointmantEndTime +
-                                "\n Total Seats : " +
-                                appointmantTotalSeats.toString() +
+                                appointmentEndTime +
+                                "\n Doctor : " +
+                                appointmentDoctor +
                                 '\n' +
-                                " Total Booked : " +
-                                appointmantTotalBooking.toString() +
+                                " Doctor Speciality : " +
+                                appointmentDoctorSpeciality +
                                 '\n'),
                           ),
                         ])),

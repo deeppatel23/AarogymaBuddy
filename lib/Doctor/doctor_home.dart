@@ -15,25 +15,13 @@ class doctorHome extends StatefulWidget {
 }
 
 class _doctorHomeState extends State<doctorHome> {
-  String _appName = "Healthcare";
+  String _appName = "Healthcare Doctor";
   String _appDescription = "";
   bool showDes = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  getAppDetails() async {
-    await FirebaseFirestore.instance
-        .collection('global_details')
-        .doc('app')
-        .get()
-        .then((value) {
-      _appName = value.data()!['name'];
-      _appDescription = value.data()!['description'];
-    });
-  }
-
   @override
   void initState() {
-    getAppDetails();
     showDes = false;
     super.initState();
   }
@@ -65,39 +53,28 @@ class _doctorHomeState extends State<doctorHome> {
       drawer: MyDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
-          await getAppDetails();
           setState(() {});
         },
         child: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-              Widget>[
-            TextButton(
-                onPressed: () {
-                  setState(() {
-                    getAppDetails();
-                    showDes = !showDes;
-                  });
-                },
-                child: const Text("DOCTOR HOME PAGE")),
-            showDes == true
-                ? Text(
-                    _appDescription == "" ? "App Description" : _appDescription)
-                : Container(),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreateAppointment()),
-              ),
-              child: const Text("Create Appointment"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ViewAppointment()),
-              ),
-              child: const Text("View All Appointment"),
-            ),
-          ]),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateAppointment()),
+                  ),
+                  child: const Text("Create Appointment"),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ViewAppointment()),
+                  ),
+                  child: const Text("View All Appointment"),
+                ),
+              ]),
         ),
       ),
     );

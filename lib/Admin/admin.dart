@@ -4,6 +4,7 @@ import 'package:healthcareapp/Login/user_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/admin/admin_home.dart';
 import 'package:healthcareapp/admin/error.dart';
+import 'package:healthcareapp/global.dart';
 
 enum LoginScreen { SHOW_MOBILE_ENTER_WIDGET, SHOW_OTP_FORM_WIDGET }
 
@@ -48,6 +49,7 @@ class _adminState extends State<admin> {
       final authCred = await _auth.signInWithCredential(phoneAuthCredential);
       final exists = await checkIfUserExists();
       print("exists: $exists");
+      userType = "admin";
 
       if (authCred.user != null) {
         if (exists) {

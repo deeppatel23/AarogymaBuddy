@@ -4,6 +4,7 @@ import 'package:healthcareapp/doctor/doctor.dart';
 import 'package:healthcareapp/admin/admin.dart';
 import 'package:healthcareapp/Login/user_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healthcareapp/global.dart';
 
 import '../homepage.dart';
 import '../doctor/doctor.dart';
@@ -51,6 +52,7 @@ class _LoginState extends State<Login> {
       final authCred = await _auth.signInWithCredential(phoneAuthCredential);
       final exists = await checkIfUserExists();
       print("exists: $exists");
+      userType = "patient";
 
       if (authCred.user != null) {
         if (exists) {

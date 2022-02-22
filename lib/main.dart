@@ -6,6 +6,7 @@ import 'package:healthcareapp/Doctor/doctor_home.dart';
 import 'package:healthcareapp/global.dart';
 import 'homepage.dart';
 import 'Login/register_user.dart';
+import 'Login/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,13 +38,14 @@ class MyApp extends StatelessWidget {
       currentUid = firebaseUser.uid;
       print(currentUid);
     } else {
-      firstWidget = const Login();
+      firstWidget = const WelcomeScreen();
     }
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Healthcare App',
       theme: ThemeData(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         primarySwatch: Colors.blue,
       ),
       home: firstWidget,

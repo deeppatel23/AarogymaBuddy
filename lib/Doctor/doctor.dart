@@ -80,10 +80,10 @@ class _doctorState extends State<doctor> {
         children: [
           Container(
             padding: EdgeInsets.only(right: 120, top: 130),
-            child: Text(
-              'Welcome Back',
-              style: TextStyle(color: Colors.white, fontSize: 33),
-            ),
+            // child: Text(
+            //   'Welcome Back',
+            //   style: TextStyle(color: Colors.white, fontSize: 33),
+            // ),
           ),
           Spacer(),
           Text(
@@ -116,6 +116,9 @@ class _doctorState extends State<doctor> {
             height: 20,
           ),
           ElevatedButton(
+            style: TextButton.styleFrom(
+              backgroundColor: Color(0xFF3A424D),
+            ),
             onPressed: () async {
               await _auth.verifyPhoneNumber(
                   phoneNumber: "+91${phoneController.text}",
@@ -177,7 +180,9 @@ class _doctorState extends State<doctor> {
           SizedBox(
             height: 20,
           ),
-          ElevatedButton(
+          ElevatedButton(style: TextButton.styleFrom(
+            backgroundColor: Color(0xFF3A424D),
+          ),
               onPressed: () {
                 AuthCredential phoneAuthCredential =
                     PhoneAuthProvider.credential(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/Appointment/book_appointment.dart';
+import 'package:healthcareapp/global.dart';
 import 'package:healthcareapp/homepage.dart';
 
 class PredictDisease extends StatefulWidget {
@@ -22,17 +23,12 @@ class _PredictDiseaseState extends State<PredictDisease> {
     _organId = organ;
   }
 
-  // @override
-  // initState() {
-  //   super.initState();
-  //   getOrganName();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Predict Disease"),
+          automaticallyImplyLeading: false,
         ),
         body: Column(
           children: [
@@ -127,6 +123,7 @@ class _PredictDiseaseState extends State<PredictDisease> {
             ElevatedButton(
                 onPressed: () {
                   getOrganName();
+                  storeResults();
                 },
                 child: const Text("Book Appointment")),
             ElevatedButton(
@@ -135,6 +132,7 @@ class _PredictDiseaseState extends State<PredictDisease> {
                     context,
                     MaterialPageRoute(builder: (context) => HomePage()),
                   );
+                  storeResults();
                 },
                 child: const Text("Home")),
           ],
@@ -161,6 +159,16 @@ class _PredictDiseaseState extends State<PredictDisease> {
           ),
         ),
       );
+    });
+  }
+
+  void storeResults() async {
+    await FirebaseFirestore.instance.collection('diagnosis_results').doc().set({
+      "selectedOrgan": _organName,
+      "selectedSymptoms": selectedSymptomsList,
+      "predictedDisease": priorityMap,
+      "patientId": currentUid,
+      "timestamp": Timestamp.now()
     });
   }
 }

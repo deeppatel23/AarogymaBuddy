@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,6 +15,7 @@ enum Answers { camera, gallery }
 
 class _SkinPredictionState extends State<SkinPrediction> {
   File? _image;
+  String _imageUrl = "";
   late List _outputs;
   var image;
   final ImagePicker _picker = ImagePicker();
@@ -57,6 +60,7 @@ class _SkinPredictionState extends State<SkinPrediction> {
     setState(() {
       res = respStr;
     });
+    storeResults();
     // print("res : " + Post.fromJson(json.decode()).toString());
   }
 
@@ -154,5 +158,26 @@ class _SkinPredictionState extends State<SkinPrediction> {
         backgroundColor: const Color.fromRGBO(14, 49, 80, 1),
       ),
     );
+  }
+
+  void storeResults() async {
+    print("Store Res called");
+    await FirebaseStorage.instance
+        .ref()
+        .child(
+            "skin_images/${DateTime.now().millisecondsSinceEpoch.toString()}.jpg")
+        .putFile(_image!)
+        .then((value) {
+      value.ref.getDownloadURL().then((url) {
+        setState(() {
+          _imageUrl = url;
+        });
+        print("Inside then");
+        FirebaseFirestore.instance.collection('skin_diagnosis').doc().set({
+          'image': url,
+          'predictedDisease': res,
+        });
+      });
+    });
   }
 }

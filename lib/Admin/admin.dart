@@ -85,15 +85,29 @@ class _adminState extends State<admin> {
             // ),
           ),
           Spacer(),
-          Text(
-            "Admin's Phone Number",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('images/admin_icon2.png'),
+                  fit: BoxFit.cover),
+            ),
           ),
+          Text(
+            "Admin",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 50),
+          // Text(
+          //   "Phone Number",
+          //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          // ),
           SizedBox(
             height: 7,
           ),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           Center(
             child: Container(
@@ -136,7 +150,7 @@ class _adminState extends State<admin> {
             child: Text("Send OTP"),
           ),
           SizedBox(
-            height: 16,
+            height: 0,
           ),
           Spacer()
         ],

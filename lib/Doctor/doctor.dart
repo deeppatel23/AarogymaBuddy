@@ -86,15 +86,29 @@ class _doctorState extends State<doctor> {
             // ),
           ),
           Spacer(),
-          Text(
-            "Doctor's Phone Number",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          SizedBox(height: 10),
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('images/doc.png'), fit: BoxFit.cover),
+            ),
           ),
+          Text(
+            "Doctor",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 50),
+          // Text(
+          //   "Doctor's Phone Number",
+          //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          // ),
           SizedBox(
             height: 7,
           ),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           Center(
             child: Container(
@@ -194,7 +208,7 @@ class _doctorState extends State<doctor> {
               },
               child: Text("Verify")),
           SizedBox(
-            height: 16,
+            height: 0,
           ),
           Spacer()
         ],

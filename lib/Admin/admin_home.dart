@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/Diagnosis/skin_prediction.dart';
 import 'package:healthcareapp/Login/register_user.dart';
+import 'package:healthcareapp/Login/welcome_screen.dart';
 import 'package:healthcareapp/drawer.dart';
 import 'package:healthcareapp/Diagnosis/select_organ.dart';
 
@@ -38,7 +39,7 @@ class _adminHomeState extends State<adminHome> {
 
   static Route<void> _myRouteBuilder(BuildContext context, Object? arguments) {
     return MaterialPageRoute<void>(
-      builder: (BuildContext context) => const Login(),
+      builder: (BuildContext context) => const WelcomeScreen(),
     );
   }
 

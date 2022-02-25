@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:healthcareapp/Doctor/view_bookings.dart';
 import 'package:healthcareapp/global.dart';
 
 import '../homepage.dart';
@@ -74,6 +75,14 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                 " Total Booked : " +
                                 appointmantTotalBooking.toString() +
                                 '\n'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ViewBookings(document.id))),
+                            child: const Text('View Bookings'),
                           ),
                         ])),
                   );

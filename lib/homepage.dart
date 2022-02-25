@@ -6,6 +6,7 @@ import 'package:healthcareapp/Appointment/my_appointment.dart';
 import 'package:healthcareapp/Diagnosis/skin_prediction.dart';
 import 'package:healthcareapp/Doctor/view_appointment.dart';
 import 'package:healthcareapp/Login/register_user.dart';
+import 'package:healthcareapp/Login/welcome_screen.dart';
 import 'package:healthcareapp/drawer.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   static Route<void> _myRouteBuilder(BuildContext context, Object? arguments) {
     return MaterialPageRoute<void>(
-      builder: (BuildContext context) => const Login(),
+      builder: (BuildContext context) => const WelcomeScreen(),
     );
   }
 

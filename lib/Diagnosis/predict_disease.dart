@@ -22,10 +22,11 @@ class _PredictDiseaseState extends State<PredictDisease> {
     _organId = organ;
   }
 
-  initState() {
-    super.initState();
-    getOrganName();
-  }
+  // @override
+  // initState() {
+  //   super.initState();
+  //   getOrganName();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +126,7 @@ class _PredictDiseaseState extends State<PredictDisease> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BookAppointment(
-                        _organName,
-                      ),
-                    ),
-                  );
+                  getOrganName();
                 },
                 child: const Text("Book Appointment")),
             ElevatedButton(
@@ -155,7 +149,18 @@ class _PredictDiseaseState extends State<PredictDisease> {
         .then((value) {
       setState(() {
         _organName = value.get("name");
+        print(_organName);
       });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookAppointment(
+            _organName,
+            selectedSymptomsList,
+            priorityMap,
+          ),
+        ),
+      );
     });
   }
 }

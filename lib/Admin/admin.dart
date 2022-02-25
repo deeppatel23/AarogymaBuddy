@@ -86,7 +86,7 @@ class _adminState extends State<admin> {
           ),
           Spacer(),
           Text(
-            "Verify Your Phone Number",
+            "Admin's Phone Number",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -104,7 +104,7 @@ class _adminState extends State<admin> {
                 decoration: InputDecoration(
                     fillColor: Colors.grey.shade100,
                     filled: true,
-                    hintText: "Enter Your PhoneNumber",
+                    hintText: "Enter Your Phone Number",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     )),

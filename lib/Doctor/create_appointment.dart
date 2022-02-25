@@ -48,7 +48,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
               padding: const EdgeInsets.all(8.0),
               child: DateTimePicker(
                 type: DateTimePickerType.date,
-                firstDate: DateTime(2000),
+                firstDate: DateTime.now(),
                 lastDate: DateTime(2100),
                 dateLabelText: 'Appointment Date',
                 controller: date,

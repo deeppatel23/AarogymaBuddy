@@ -7,8 +7,11 @@ import 'package:healthcareapp/homepage.dart';
 class BookAppointment extends StatefulWidget {
   @override
   String organName = "";
-  BookAppointment(this.organName);
-  _BookAppointmentState createState() => _BookAppointmentState(this.organName);
+  List<String> symptoms = [];
+  Map<String, int> priorityMap = {};
+  BookAppointment(this.organName, this.symptoms, this.priorityMap);
+  _BookAppointmentState createState() =>
+      _BookAppointmentState(this.organName, this.symptoms, this.priorityMap);
 }
 
 String appointmentDate = "";
@@ -24,10 +27,14 @@ String address = "";
 
 class _BookAppointmentState extends State<BookAppointment> {
   String _organName = "";
+  List<String> _symptoms = [];
+  Map<String, int> _priorityMap = {};
 
-  _BookAppointmentState(String _organ) {
+  _BookAppointmentState(String _organ, List<String> s, Map<String, int> mp) {
     _organName = _organ;
-    print(_organName);
+    _symptoms = s;
+    _priorityMap = mp;
+    print("Organ found:" + _organName);
   }
 
   @override
@@ -82,9 +89,10 @@ class _BookAppointmentState extends State<BookAppointment> {
                                       MediaQuery.of(context).size.width / 1.2,
                                   height:
                                       MediaQuery.of(context).size.height / 6,
-                                  child: Text("\nDate : " +
+                                  child: Text("\n Doctor: " +
+                                      appointmentDoctor +
+                                      "\n Date : " +
                                       appointmentDate +
-                                      '\n' +
                                       "\n Start Time : " +
                                       appointmentStartTime +
                                       "\n End Time : " +
@@ -95,13 +103,39 @@ class _BookAppointmentState extends State<BookAppointment> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    Booking(
-                                        document.id,
-                                        document['doctorName'],
-                                        document['doctorSpeciality'],
-                                        document['date'].toString(),
-                                        document['startTime'].toString(),
-                                        document['endTime'].toString());
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                                'Confirm your appointment'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Booking(
+                                                      document.id,
+                                                      document['doctorName'],
+                                                      document[
+                                                          'doctorSpeciality'],
+                                                      document['date']
+                                                          .toString(),
+                                                      document['startTime']
+                                                          .toString(),
+                                                      document['endTime']
+                                                          .toString());
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Confirm'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Cancel'),
+                                              )
+                                            ],
+                                          );
+                                        });
                                   },
                                   child: const Text("Book Appointment"),
                                 )
@@ -137,36 +171,86 @@ class _BookAppointmentState extends State<BookAppointment> {
   void Booking(String appId, String docName, String docSpeciality,
       String appDate, String appStime, String appEtime) async {
     getCurrentUserInfo();
+    try {
+      await FirebaseFirestore.instance
+          .collection('appointments')
+          .doc(appId)
+          .collection('bookings')
+          .doc(currentUid)
+          .set({
+        'patientName': name,
+        'patientMobile': mobile,
+        'patientAddress': address,
+        'patientId': currentUid,
+        'doctorName': docName,
+        'appointmentId': appId,
+        'selectedOrgan': _organName,
+        'selectedSymptoms': _symptoms.toString(),
+        'predictedResults': _priorityMap.toString(),
+      }).then((value) {
+        incrementBookedSears(appId);
+        addBookingToUser(
+            appId, docName, docSpeciality, appDate, appStime, appEtime);
+        Fluttertoast.showToast(
+            msg: "Appointment Booked Successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+      });
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: "Error in Booking",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  void incrementBookedSears(String appId) async {
+    int bookedSeats = 0;
     await FirebaseFirestore.instance
         .collection('appointments')
         .doc(appId)
         .collection('bookings')
+        .get()
+        .then((value) {
+      bookedSeats = value.docs.length;
+    });
+    await FirebaseFirestore.instance
+        .collection('appointments')
+        .doc(appId)
+        .update({
+      'totalBooking': bookedSeats,
+    });
+  }
+
+  void addBookingToUser(String appId, String docName, String docSpeciality,
+      String appDate, String appStime, String appEtime) async {
+    await FirebaseFirestore.instance
+        .collection('users')
         .doc(currentUid)
+        .collection('bookings')
+        .doc(appId)
         .set({
-          'name': name,
-          'mobile': mobile,
-          'address': address,
-          'userId': currentUid,
-        })
-        .then((value) => FirebaseFirestore.instance
-                .collection('appointments')
-                .doc(appId)
-                .update({
-              'totalBooking': FieldValue.increment(1),
-            }))
-        .then((value) => FirebaseFirestore.instance
-                .collection('users')
-                .doc(currentUid)
-                .collection('bookings')
-                .doc(appId)
-                .set({
-              'doctorName': docName,
-              'doctorSpeciality': docSpeciality,
-              'date': appDate,
-              'appointmentId': appId,
-              'startTime': appStime,
-              'endTime': appEtime,
-            }));
+      'doctorName': docName,
+      'doctorSpeciality': docSpeciality,
+      'date': appDate,
+      'appointmentId': appId,
+      'startTime': appStime,
+      'endTime': appEtime,
+      'selectedOrgan': _organName,
+      'selectedSymptoms': _symptoms.toString(),
+      'predictedResults': _priorityMap.toString(),
+    });
   }
 } 
     // catch (e) {

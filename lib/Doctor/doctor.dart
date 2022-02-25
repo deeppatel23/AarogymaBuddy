@@ -87,7 +87,7 @@ class _doctorState extends State<doctor> {
           ),
           Spacer(),
           Text(
-            "Verify Your Phone Number",
+            "Doctor's Phone Number",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -180,9 +180,10 @@ class _doctorState extends State<doctor> {
           SizedBox(
             height: 20,
           ),
-          ElevatedButton(style: TextButton.styleFrom(
-            backgroundColor: Color(0xFF3A424D),
-          ),
+          ElevatedButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Color(0xFF3A424D),
+              ),
               onPressed: () {
                 AuthCredential phoneAuthCredential =
                     PhoneAuthProvider.credential(

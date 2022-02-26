@@ -24,6 +24,13 @@ class _PredictDiseaseState extends State<PredictDisease> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getOrganName();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -124,6 +131,16 @@ class _PredictDiseaseState extends State<PredictDisease> {
                 onPressed: () {
                   getOrganName();
                   storeResults();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookAppointment(
+                        _organName,
+                        selectedSymptomsList,
+                        priorityMap,
+                      ),
+                    ),
+                  );
                 },
                 child: const Text("Book Appointment")),
             ElevatedButton(
@@ -149,16 +166,6 @@ class _PredictDiseaseState extends State<PredictDisease> {
         _organName = value.get("name");
         print(_organName);
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BookAppointment(
-            _organName,
-            selectedSymptomsList,
-            priorityMap,
-          ),
-        ),
-      );
     });
   }
 

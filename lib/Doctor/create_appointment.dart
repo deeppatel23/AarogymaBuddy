@@ -5,6 +5,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:healthcareapp/Doctor/doctor_home.dart';
 import 'package:healthcareapp/global.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../homepage.dart';
 
@@ -27,12 +28,14 @@ class _CreateAppointmentState extends State<CreateAppointment> {
   String experience = "";
   String fee = "";
   String image = "";
+  bool validSlot = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCurrentDoctorInfo();
+    validSlot = true;
   }
 
   @override
@@ -52,7 +55,9 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                 lastDate: DateTime(2100),
                 dateLabelText: 'Appointment Date',
                 controller: date,
-                onChanged: (val) => print(val),
+                onChanged: (val) => setState(() {
+                  validSlot = true;
+                }),
                 validator: (val) {
                   print(val);
                   return null;
@@ -68,7 +73,9 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                 lastDate: DateTime(2100),
                 timeLabelText: 'Start Time',
                 controller: startTime,
-                onChanged: (val) => print(val),
+                onChanged: (val) => setState(() {
+                  validSlot = true;
+                }),
                 validator: (val) {
                   print(val);
                   return null;
@@ -84,7 +91,9 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                 lastDate: DateTime(2100),
                 timeLabelText: 'End Time',
                 controller: endTime,
-                onChanged: (val) => print(val),
+                onChanged: (val) => setState(() {
+                  validSlot = true;
+                }),
                 validator: (val) {
                   print(val);
                   return null;
@@ -120,7 +129,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
               child: ElevatedButton(
                   child: Text('Create Appointment'),
                   onPressed: () {
-                    createAppointment();
+                    validateSlot(date.text, startTime.text, endTime.text);
                   }),
             ),
           ],
@@ -142,6 +151,43 @@ class _CreateAppointmentState extends State<CreateAppointment> {
     experience = doc['experience'];
     fee = doc['fee'];
     image = doc['image'];
+  }
+
+  void validateSlot(String date, String sTime, String eTime) async {
+    await FirebaseFirestore.instance
+        .collection('appointments')
+        .where('doctorId', isEqualTo: currentUid)
+        .get()
+        .then((value) => {
+              value.docs.forEach((element) => {
+                    if (element.data()['date'] == date &&
+                        element
+                                .data()['startTime']
+                                .toString()
+                                .compareTo(eTime) <=
+                            0 &&
+                        element.data()['endTime'].toString().compareTo(sTime) >=
+                            0)
+                      {
+                        print('Slot already booked'),
+                        Fluttertoast.showToast(
+                            msg: "You already have appointment in this slot",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0),
+                        setState(() {
+                          validSlot = false;
+                        })
+                      }
+                  }),
+              if (validSlot)
+                {
+                  createAppointment(),
+                }
+            });
   }
 
   void createAppointment() async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthcareapp/chatbot.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -68,10 +69,10 @@ class _MyDrawerState extends State<MyDrawer> {
           ListTile(
             title: Text('Chatbot'),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => DiseasesInfoPage()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Chatbot()),
+              );
             },
           ),
           ListTile(

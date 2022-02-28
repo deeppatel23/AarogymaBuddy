@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:location/location.dart' as loc;
+import 'package:permission_handler/permission_handler.dart';
 import '../homepage.dart';
 
 class UserDetails extends StatefulWidget {
@@ -15,6 +18,25 @@ class _UserDetailsState extends State<UserDetails> {
   TextEditingController mobile = TextEditingController();
   TextEditingController aadhar = TextEditingController();
   TextEditingController email = TextEditingController();
+  //location var
+  final loc.Location location = loc.Location();
+  StreamSubscription<loc.LocationData>? _locationSubscription;
+  //dropdown var
+  List<String> states = ['Gujarat', 'Maharastra'];
+  List<String> gujarat = ['Rajkot', 'Ahemdabad', 'Baroda'];
+  List<String> maharastra = ['Mumbai', 'Pune', 'Nasik'];
+  List<String> provinces = [];
+  String? selectedState;
+  String? selectedCity;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _requestPermission();
+    location.changeSettings(interval: 300, accuracy: loc.LocationAccuracy.high);
+    location.enableBackgroundMode(enable: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +47,8 @@ class _UserDetailsState extends State<UserDetails> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-
-        // appBar: AppBar(
-        //   title: Text('User Details'),
-        // ),
         body: Form(
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -56,11 +75,17 @@ class _UserDetailsState extends State<UserDetails> {
                       ),
                     ),
                     validator: (value) {
+                      RegExp regex = new RegExp(r'^.{3,}$');
                       if (value!.isEmpty) {
-                        return 'You must enter the first name';
-                      } else if (value.length > 15) {
-                        return 'First name cant have more than 15 letters';
+                        return ("First Name cannot be Empty");
                       }
+                      if (!regex.hasMatch(value)) {
+                        return ("Enter Valid name(Min. 3 Character)");
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      firstNameController.text = value!;
                     },
                   ),
                 ),
@@ -77,28 +102,20 @@ class _UserDetailsState extends State<UserDetails> {
                       ),
                     ),
                     validator: (value) {
+                      RegExp regex = new RegExp(r'^.{3,}$');
                       if (value!.isEmpty) {
-                        return 'You must enter the Last name';
-                      } else if (value.length > 15) {
-                        return 'Last name cant have more than 15 letters';
+                        return ("Last Name cannot be Empty");
                       }
+                      if (!regex.hasMatch(value)) {
+                        return ("Enter Valid lastname");
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      lastNameController.text = value!;
                     },
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(12.0),
-                //   child: TextFormField(
-                //     controller: mobile,
-                //     decoration: const InputDecoration(hintText: 'mobile'),
-                //     validator: (value) {
-                //       if (value!.isEmpty) {
-                //         return 'You must enter the mobile';
-                //       } else if (value.length > 15) {
-                //         return 'mobile cant have more than 15 letters';
-                //       }
-                //     },
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: TextFormField(
@@ -112,11 +129,17 @@ class _UserDetailsState extends State<UserDetails> {
                       ),
                     ),
                     validator: (value) {
+                      RegExp regex = new RegExp("\\d{12}");
                       if (value!.isEmpty) {
-                        return 'You must enter the first name';
-                      } else if (value.length > 15) {
-                        return 'First name cant have more than 15 letters';
+                        return ("aadhar number cannot be Empty");
                       }
+                      if (!regex.hasMatch(value)) {
+                        return ("Enter Valid aadhar number");
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      aadhar.text = value!;
                     },
                   ),
                 ),
@@ -134,34 +157,86 @@ class _UserDetailsState extends State<UserDetails> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'You must enter the first name';
-                      } else if (value.length > 15) {
-                        return 'First name cant have more than 15 letters';
+                        return ("Please Enter Your Email");
                       }
+                      // reg expression for email validation
+                      if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                          .hasMatch(value)) {
+                        return ("Please Enter a valid email");
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      email.text = value!;
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: DropdownButton<String>(
+                    borderRadius: BorderRadius.circular(10),
+                    hint: Text('State'),
+                    value: selectedState,
+                    isExpanded: true,
+                    items: states.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (state) {
+                      if (state == 'Maharastra') {
+                        provinces = maharastra;
+                      } else if (state == 'Gujarat') {
+                        provinces = gujarat;
+                      } else {
+                        provinces = [];
+                      }
+                      setState(() {
+                        selectedCity = null;
+                        selectedState = state;
+                      });
+                    },
+                  ),
                 ),
+
+                // State Dropdown Ends here
+                // City Dropdown
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: DropdownButton<String>(
+                    borderRadius: BorderRadius.circular(10),
+                    hint: Text('City'),
+                    value: selectedCity,
+                    isExpanded: true,
+                    items: provinces.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (province) {
+                      setState(() {
+                        selectedCity = province;
+                      });
+                    },
+                  ),
+                ),
+
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: Color(0xff4c505b),
                   child: IconButton(
-                      color: Colors.white,
-                      onPressed: () {
-                        validateAndUpload();
-                      },
-                      icon: Icon(
-                        Icons.arrow_forward,
-                      )),
-                )
-                // ElevatedButton(
-                //   child: Text('Registe]r'),
-                //   onPressed: () {
-                //     validateAndUpload();
-                //   },
-                // )
+                    color: Colors.white,
+                    onPressed: () {
+                      validateAndUpload();
+                    },
+                    icon: Icon(
+                      Icons.arrow_forward,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -170,23 +245,42 @@ class _UserDetailsState extends State<UserDetails> {
     );
   }
 
+  _requestPermission() async {
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      print('done');
+    } else if (status.isDenied) {
+      _requestPermission();
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+    }
+  }
+
   void validateAndUpload() async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
     final FirebaseAuth auth = FirebaseAuth.instance;
+    final loc.LocationData _locationResult = await location.getLocation();
+
     User currentUser = await auth.currentUser!;
     print("User id" + currentUser.uid);
-    _firestore.collection('users').doc(currentUser.uid).set({
-      'firstName': firstNameController.text,
-      'lastName': lastNameController.text,
-      'mobile': currentUser.phoneNumber,
-      'aadhar': aadhar.text,
-      'email': email.text,
-      'id': currentUser.uid,
-    }).then(
-      (value) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      ),
-    );
+    if (_formKey.currentState!.validate()) {
+      _firestore.collection('users').doc(currentUser.uid).set({
+        'firstName': firstNameController.text,
+        'lastName': lastNameController.text,
+        'mobile': currentUser.phoneNumber,
+        'aadhar': aadhar.text,
+        'email': email.text,
+        'id': currentUser.uid,
+        'latitude': _locationResult.latitude,
+        'longitude': _locationResult.longitude,
+        'state': selectedState,
+        'city': selectedCity,
+      }).then(
+        (value) => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        ),
+      );
+    }
   }
 }

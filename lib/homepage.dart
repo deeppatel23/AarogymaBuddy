@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/Appointment/my_appointment.dart';
+import 'package:healthcareapp/Appointment/general_book_appointment.dart';
 import 'package:healthcareapp/Diagnosis/skin_prediction.dart';
 import 'package:healthcareapp/Doctor/view_appointment.dart';
 import 'package:healthcareapp/Login/register_user.dart';
@@ -73,233 +74,258 @@ class _HomePageState extends State<HomePage> {
           await getAppDetails();
           setState(() {});
         },
-        child: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // Container(
-                //   padding: EdgeInsets.only(right: 0, top: 0),
-                //   child: Text(
-                //     'How are you feeling today?',
-                //     style: TextStyle(color: Colors.black12, fontSize: 40),
-                //   ),
-                // ),
-                // TextButton(
-                //     onPressed: () {
-                //       setState(() {
-                //         getAppDetails();
-                //         showDes = !showDes;
-                //       });
-                //     },
-                //     child: const Text("Hello Healthcare App")),
-                // showDes == true
-                //     ? Text(
-                //         _appDescription == "" ? "App Description" : _appDescription)
-                //     : Container(),
-                Container(
-                  width: double.infinity,
-                  height: 150.0,
-                  margin: EdgeInsets.symmetric(horizontal: 18.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    color: Color(0xFFDAF2FC),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 15.0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Do you have symptoms\nof Covid 19?",
-                                // style: kTitleStyle,
-                              ),
-                              Spacer(),
-                              RaisedButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SelectOrgan()),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 30),
+                  Container(
+                    width: double.infinity,
+                    height: 150.0,
+                    margin: EdgeInsets.symmetric(horizontal: 18.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: Color(0xFFDAF2FC),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 15.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Do you have symptoms\nof Covid 19?",
+                                  // style: kTitleStyle,
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                color: Color(0xFF40BEEE),
-                                elevation: 2.0,
-                                child: SizedBox(
-                                  width: 150.0,
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Text(
-                                      "Diagnose Disease",
-                                      // style: ,
+                                Spacer(),
+                                RaisedButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SelectOrgan()),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  color: Color(0xFF40BEEE),
+                                  elevation: 2.0,
+                                  child: SizedBox(
+                                    width: 150.0,
+                                    height: 50.0,
+                                    child: Center(
+                                      child: Text(
+                                        "Diagnose Disease",
+                                        // style: ,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Image.asset(
-                        "images/doctor11.png",
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(width: 15.0),
-                    ],
+                        Image.asset(
+                          "images/doctor11.png",
+                          fit: BoxFit.contain,
+                        ),
+                        SizedBox(width: 15.0),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 30),
-                Container(
-                  width: double.infinity,
-                  height: 150.0,
-                  margin: EdgeInsets.symmetric(horizontal: 18.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    color: Color(0xFFDAF2FC),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 15.0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Do you have skin related\nsymptoms?",
-                                // style: kTitleStyle,
-                              ),
-                              Spacer(),
-                              RaisedButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SkinPrediction()),
+                  SizedBox(height: 30),
+                  Container(
+                    width: double.infinity,
+                    height: 150.0,
+                    margin: EdgeInsets.symmetric(horizontal: 18.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: Color(0xFFDAF2FC),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 15.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Do you have skin related\nsymptoms?",
+                                  // style: kTitleStyle,
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                color: Color(0xFF40BEEE),
-                                elevation: 2.0,
-                                child: SizedBox(
-                                  width: 150.0,
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Text(
-                                      "Skin Disease Prediction",
-                                      // style: ,
+                                Spacer(),
+                                RaisedButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SkinPrediction()),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  color: Color(0xFF40BEEE),
+                                  elevation: 2.0,
+                                  child: SizedBox(
+                                    width: 150.0,
+                                    height: 50.0,
+                                    child: Center(
+                                      child: Text(
+                                        "Skin Disease Prediction",
+                                        // style: ,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Image.asset(
-                        "images/skin.png",
-                        fit: BoxFit.contain,
-                        width: 100,
-                        height: 100,
-                      ),
-                      SizedBox(width: 15.0),
-                    ],
+                        Image.asset(
+                          "images/skin.png",
+                          fit: BoxFit.contain,
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(width: 15.0),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 30),
-                Container(
-                  width: double.infinity,
-                  height: 150.0,
-                  margin: EdgeInsets.symmetric(horizontal: 18.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    color: Color(0xFFDAF2FC),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 15.0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Have you booked your\nappointment yet?",
-                                // style: kTitleStyle,
-                              ),
-                              Spacer(),
-                              RaisedButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyAppointment()),
+                  SizedBox(height: 30),
+                  Container(
+                    width: double.infinity,
+                    height: 150.0,
+                    margin: EdgeInsets.symmetric(horizontal: 18.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: Color(0xFFDAF2FC),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 15.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Have you booked your\nappointment yet?",
+                                  // style: kTitleStyle,
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                color: Color(0xFF40BEEE),
-                                elevation: 2.0,
-                                child: SizedBox(
-                                  width: 150.0,
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Text(
-                                      "View Appointments",
-                                      // style: ,
+                                Spacer(),
+                                RaisedButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyAppointment()),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  color: Color(0xFF40BEEE),
+                                  elevation: 2.0,
+                                  child: SizedBox(
+                                    width: 150.0,
+                                    height: 50.0,
+                                    child: Center(
+                                      child: Text(
+                                        "View Appointments",
+                                        // style: ,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Image.asset(
-                        "images/calendar.png",
-                        fit: BoxFit.contain,
-                        width: 100,
-                        height: 100,
-                      ),
-                      SizedBox(width: 15.0),
-                    ],
+                        Image.asset(
+                          "images/calendar.png",
+                          fit: BoxFit.contain,
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(width: 15.0),
+                      ],
+                    ),
                   ),
-                ),
-
-                // TextButton(
-                //   onPressed: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => const SelectOrgan()),
-                //   ),
-                //   child: const Text("Select Organ"),
-                // ),
-                // TextButton(
-                //   onPressed: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => SkinPrediction()),
-                //   ),
-                //   child: const Text("Skin Disease Prediction"),
-                // ),
-                // TextButton(
-                //   onPressed: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => MyAppointment()),
-                //   ),
-                //   child: const Text("View Appointment"),
-                // ),
-              ]),
+                  SizedBox(height: 30),
+                  Container(
+                    width: double.infinity,
+                    height: 150.0,
+                    margin: EdgeInsets.symmetric(horizontal: 18.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: Color(0xFFDAF2FC),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 15.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Have you booked your\nappointment yet?",
+                                  // style: kTitleStyle,
+                                ),
+                                Spacer(),
+                                RaisedButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            GeneralBookAppointment()),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  ),
+                                  color: Color(0xFF40BEEE),
+                                  elevation: 2.0,
+                                  child: SizedBox(
+                                    width: 150.0,
+                                    height: 50.0,
+                                    child: Center(
+                                      child: Text(
+                                        "Book Appointments",
+                                        // style: ,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Image.asset(
+                          "images/calendar.png",
+                          fit: BoxFit.contain,
+                          width: 100,
+                          height: 100,
+                        ),
+                        SizedBox(width: 15.0),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                ]),
+          ),
         ),
       ),
     );

@@ -6,6 +6,9 @@ import 'package:healthcareapp/Diagnosis/skin_prediction.dart';
 import 'package:healthcareapp/Login/register_user.dart';
 import 'package:healthcareapp/Login/welcome_screen.dart';
 import 'package:healthcareapp/drawer.dart';
+import 'package:healthcareapp/Admin/docinfo.dart';
+import 'package:healthcareapp/Admin/patientinfo.dart';
+
 import 'package:healthcareapp/Diagnosis/select_organ.dart';
 
 class adminHome extends StatefulWidget {
@@ -68,35 +71,159 @@ class _adminHomeState extends State<adminHome> {
           setState(() {});
         },
         child: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-              Widget>[
-            TextButton(
-                onPressed: () {
-                  setState(() {
-                    getAppDetails();
-                    showDes = !showDes;
-                  });
-                },
-                child: const Text("ADMIN HOME PAGE")),
-            showDes == true
-                ? Text(
-                    _appDescription == "" ? "App Description" : _appDescription)
-                : Container(),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SelectOrgan()),
-              ),
-              child: const Text("Select Organ"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SkinPrediction()),
-              ),
-              child: const Text("Skin Disease Prediction"),
-            ),
-          ]),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      setState(() {
+                        getAppDetails();
+                        showDes = !showDes;
+                      });
+                    },
+                    child: const Text("ADMIN HOME PAGE")),
+                showDes == true
+                    ? Text(_appDescription == ""
+                        ? "App Description"
+                        : _appDescription)
+                    : Container(),
+                // TextButton(
+                //   onPressed: () => Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => const SelectOrgan()),
+                //   ),
+                //   child: const Text("Select Organ"),
+                // ),
+                // TextButton(
+                //   onPressed: () => Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => SkinPrediction()),
+                //   ),
+                //   child: const Text("Skin Disease Prediction"),
+                // ),
+                SizedBox(height: 30),
+                Container(
+                  width: double.infinity,
+                  height: 150.0,
+                  margin: EdgeInsets.symmetric(horizontal: 18.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    color: Color(0xFFDAF2FC),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 15.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Have you booked your\nappointment yet?",
+                                // style: kTitleStyle,
+                              ),
+                              Spacer(),
+                              RaisedButton(
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DocInfo()),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                color: Color(0xFF40BEEE),
+                                elevation: 2.0,
+                                child: SizedBox(
+                                  width: 150.0,
+                                  height: 50.0,
+                                  child: Center(
+                                    child: Text(
+                                      "Doctor info",
+                                      // style: ,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Image.asset(
+                        "images/calendar.png",
+                        fit: BoxFit.contain,
+                        width: 100,
+                        height: 100,
+                      ),
+                      SizedBox(width: 15.0),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 30),
+                Container(
+                  width: double.infinity,
+                  height: 150.0,
+                  margin: EdgeInsets.symmetric(horizontal: 18.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    color: Color(0xFFDAF2FC),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 15.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Have you booked your\nappointment yet?",
+                                // style: kTitleStyle,
+                              ),
+                              Spacer(),
+                              RaisedButton(
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PatientInfo()),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                color: Color(0xFF40BEEE),
+                                elevation: 2.0,
+                                child: SizedBox(
+                                  width: 150.0,
+                                  height: 50.0,
+                                  child: Center(
+                                    child: Text(
+                                      "Patient Info",
+                                      // style: ,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Image.asset(
+                        "images/calendar.png",
+                        fit: BoxFit.contain,
+                        width: 100,
+                        height: 100,
+                      ),
+                      SizedBox(width: 15.0),
+                    ],
+                  ),
+                ),
+              ]),
         ),
       ),
     );

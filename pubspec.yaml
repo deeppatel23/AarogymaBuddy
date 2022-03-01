@@ -36,6 +36,9 @@ dependencies:
   fluttertoast: ^8.0.8
   firebase_storage: ^10.2.9
   dialog_flowtter: ^0.3.3
+  google_maps_flutter: ^2.0.6
+  location: ^4.3.0
+  permission_handler: ^8.1.4+2
 
   flutter:
     sdk: flutter

@@ -17,6 +17,11 @@ class _PredictDiseaseState extends State<PredictDisease> {
   List<String> selectedSymptomsList = [];
   String _organId = "";
   String _organName = "";
+  String _patientName = "";
+  String _patientState = "";
+  String _patientCity = "";
+  double _patientLat = 0;
+  double _patientLong = 0;
   Map<String, int> priorityMap = {};
   _PredictDiseaseState(List<String> symptoms, String organ) {
     selectedSymptomsList = symptoms;
@@ -28,6 +33,7 @@ class _PredictDiseaseState extends State<PredictDisease> {
     // TODO: implement initState
     super.initState();
     getOrganName();
+    getCurrentUserInfo();
   }
 
   @override
@@ -169,13 +175,45 @@ class _PredictDiseaseState extends State<PredictDisease> {
     });
   }
 
+  void getCurrentUserInfo() async {
+    final uid = currentUid;
+    final doc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    _patientName = doc['firstName'];
+    _patientState = doc['state'];
+    _patientCity = doc['city'];
+    _patientLat = doc['latitude'];
+    _patientLong = doc['longitude'];
+  }
+
   void storeResults() async {
     await FirebaseFirestore.instance.collection('diagnosis_results').doc().set({
       "selectedOrgan": _organName,
       "selectedSymptoms": selectedSymptomsList,
       "predictedDisease": priorityMap,
       "patientId": currentUid,
-      "timestamp": Timestamp.now()
+      "timestamp": Timestamp.now(),
+      "patientName": _patientName,
+      "patientState": _patientState,
+      "patientCity": _patientCity,
+      "patientLat": _patientLat,
+      "patientLong": _patientLong,
+    });
+
+    await FirebaseFirestore.instance
+        .collection("epidemic_prediction")
+        .doc()
+        .set({
+      "organId": _organId,
+      "organName": _organName,
+      "timestamp": Timestamp.now(),
+      "predictedDisease": priorityMap.keys.elementAt(0).toString(),
+      "predictedDisease2": priorityMap.keys.elementAt(1).toString(),
+      "patientId": currentUid,
+      "patientState": _patientState,
+      "patientCity": _patientCity,
+      "patientLat": _patientLat,
+      "patientLong": _patientLong,
     });
   }
 }

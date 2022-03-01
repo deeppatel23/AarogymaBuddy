@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthcareapp/Chatbot/chatbot.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -77,7 +78,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             title: Text('Nearby PHCs'),
-            onTap: () {},
+            onTap: () => MapsLauncher.launchQuery('Hospitals near me'),
           ),
           ListTile(
             title: Text('Appointments'),

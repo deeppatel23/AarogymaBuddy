@@ -122,7 +122,7 @@ class _adminHomeState extends State<adminHome> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Have you booked your\nappointment yet?",
+                                "View Doctor's Info\n",
                                 // style: kTitleStyle,
                               ),
                               Spacer(),
@@ -183,7 +183,7 @@ class _adminHomeState extends State<adminHome> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Have you booked your\nappointment yet?",
+                                "View Patient's Info\n",
                                 // style: kTitleStyle,
                               ),
                               Spacer(),

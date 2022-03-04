@@ -7,18 +7,23 @@ import 'package:healthcareapp/Doctor/doctor_home.dart';
 import 'package:healthcareapp/global.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../homepage.dart';
+import '../../homepage.dart';
 
-class CreateAppointment extends StatefulWidget {
+enum SingingCharacter { lafayette, jefferson }
+
+class CreateHealthcamp extends StatefulWidget {
   @override
-  _CreateAppointmentState createState() => _CreateAppointmentState();
+  _CreateHealthcampState createState() => _CreateHealthcampState();
 }
 
-class _CreateAppointmentState extends State<CreateAppointment> {
+class _CreateHealthcampState extends State<CreateHealthcamp> {
   TextEditingController date = TextEditingController();
   TextEditingController startTime = TextEditingController();
   TextEditingController endTime = TextEditingController();
   TextEditingController totalSeats = TextEditingController();
+  TextEditingController campAddress = TextEditingController();
+  TextEditingController description = TextEditingController();
+  TextEditingController mode = TextEditingController();
 
   String name = "";
   String email = "";
@@ -29,6 +34,9 @@ class _CreateAppointmentState extends State<CreateAppointment> {
   String fee = "";
   String image = "";
   bool validSlot = true;
+  bool online = true;
+
+  SingingCharacter? _character = SingingCharacter.lafayette;
 
   @override
   void initState() {
@@ -42,7 +50,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Appointment'),
+        title: const Text('Create Healthcare Bootcamp'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -53,7 +61,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                 type: DateTimePickerType.date,
                 firstDate: DateTime.now(),
                 lastDate: DateTime(2100),
-                dateLabelText: 'Appointment Date',
+                dateLabelText: 'Healthcamp Date',
                 controller: date,
                 onChanged: (val) => setState(() {
                   validSlot = true;
@@ -124,10 +132,119 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                 },
               ),
             ),
+            ListTile(
+              title: const Text('online'),
+              leading: Radio<SingingCharacter>(
+                value: SingingCharacter.lafayette,
+                groupValue: _character,
+                onChanged: (SingingCharacter? value) {
+                  setState(() {
+                    _character = value;
+                    online = true;
+                  });
+                },
+              ),
+            ),
+            ListTile(
+              title: const Text('offline'),
+              leading: Radio<SingingCharacter>(
+                value: SingingCharacter.jefferson,
+                groupValue: _character,
+                onChanged: (SingingCharacter? value) {
+                  setState(() {
+                    _character = value;
+                    online = false;
+                  });
+                },
+              ),
+            ),
+            if (!online)
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextFormField(
+                  controller: campAddress,
+                  decoration: InputDecoration(
+                    hintText: 'Address for healthcamp',
+                    fillColor: Colors.grey.shade100,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    RegExp regex = new RegExp(r'^.{3,}$');
+                    if (value!.isEmpty) {
+                      return ("Address cannot be Empty");
+                    }
+                    if (!regex.hasMatch(value)) {
+                      return ("Enter Valid Address");
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    campAddress.text = value!;
+                  },
+                ),
+              ),
+            if (online)
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextFormField(
+                  controller: campAddress,
+                  decoration: InputDecoration(
+                    hintText: 'Link for online',
+                    fillColor: Colors.grey.shade100,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    RegExp regex = new RegExp(r'^.{3,}$');
+                    if (value!.isEmpty) {
+                      return ("Address cannot be Empty");
+                    }
+                    if (!regex.hasMatch(value)) {
+                      return ("Enter Valid Address");
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    campAddress.text = value!;
+                  },
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: TextFormField(
+                controller: description,
+                decoration: InputDecoration(
+                  hintText: 'Description of Healthcamp',
+                  fillColor: Colors.grey.shade100,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{3,}$');
+                  if (value!.isEmpty) {
+                    return ("Description cannot be Empty");
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("Enter Valid Description");
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  description.text = value!;
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                  child: Text('Create Appointment'),
+                  child: Text('Create Healthcare Bootcamp'),
                   onPressed: () {
                     validateSlot(date.text, startTime.text, endTime.text);
                   }),
@@ -155,7 +272,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
 
   void validateSlot(String date, String sTime, String eTime) async {
     await FirebaseFirestore.instance
-        .collection('appointments')
+        .collection('healthcamp')
         .where('doctorId', isEqualTo: currentUid)
         .get()
         .then((value) => {
@@ -171,7 +288,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                       {
                         print('Slot already booked'),
                         Fluttertoast.showToast(
-                            msg: "You already have appointment in this slot",
+                            msg: "You already have healthcamp in this slot",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.CENTER,
                             timeInSecForIosWeb: 1,
@@ -185,20 +302,22 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                   }),
               if (validSlot)
                 {
-                  createAppointment(),
+                  createHealthcamp(),
                 }
             });
   }
 
-  void createAppointment() async {
+  void createHealthcamp() async {
     getCurrentDoctorInfo();
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    _firestore.collection('appointments').doc().set({
+    _firestore.collection('healthcamp').doc().set({
       'date': date.text,
       'startTime': startTime.text,
       'endTime': endTime.text,
       'totalSeats': int.parse(totalSeats.text),
       'totalBooking': 0,
+      'campAddress': campAddress.text,
+      'description': description.text,
       'doctorId': currentUid,
       'doctorName': name,
       'doctorEmail': email,
@@ -207,6 +326,7 @@ class _CreateAppointmentState extends State<CreateAppointment> {
       'doctorSpeciality': speciality,
       'doctorExperience': experience,
       'doctorFee': fee,
+      'mode': online,
     }).then(
       (value) => Navigator.push(
         context,

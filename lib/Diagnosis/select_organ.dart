@@ -74,7 +74,13 @@ class _SelectOrganState extends State<SelectOrgan> {
                           //           PredictDisease(allSymptoms)),
                           // );
                         },
+                        leading: Image(
+                          image: AssetImage('images/organs/' +
+                              document.get("name").toString() +
+                              '.png'),
+                        ),
                       ),
+                      SizedBox(height: 15),
                     ],
                   ),
                 );

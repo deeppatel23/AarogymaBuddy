@@ -5,11 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/Appointment/my_appointment.dart';
 import 'package:healthcareapp/Appointment/general_book_appointment.dart';
 import 'package:healthcareapp/Diagnosis/skin_prediction.dart';
-import 'package:healthcareapp/Doctor/view_appointment.dart';
+import 'package:healthcareapp/Doctor/Doc_Appointment/view_appointment.dart';
 import 'package:healthcareapp/Login/register_user.dart';
 import 'package:healthcareapp/Login/welcome_screen.dart';
 import 'package:healthcareapp/drawer.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:healthcareapp/Healthcamp/healthcamp_registration.dart';
+import 'package:healthcareapp/Healthcamp/my_registrations.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -54,6 +55,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF1FAB89),
         title: Text(_appName == "" ? "App Name" : _appName),
         actions: <Widget>[
           IconButton(
@@ -80,247 +82,372 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 30),
-                  Container(
-                    width: double.infinity,
+                  FlatButton(
                     height: 150.0,
-                    margin: EdgeInsets.symmetric(horizontal: 18.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: Color(0xFFDAF2FC),
+
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SelectOrgan()),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 15.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Do you have symptoms\nof Covid 19?",
-                                  // style: kTitleStyle,
-                                ),
-                                Spacer(),
-                                RaisedButton(
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SelectOrgan()),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    color: Colors
+                        .transparent, //set this opacity as per your requirement
+                    child: Container(
+                      width: double.infinity,
+                      height: 150.0,
+                      margin: EdgeInsets.symmetric(horizontal: 18.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Color(0xFFF38181),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 15.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Do you have symptoms\nof Covid 19?",
+                                    // style: kTitleStyle,
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
+                                  Spacer(),
+                                  Padding(
+                                    // padding: EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                    child: Text('Disease Diagnosis'),
                                   ),
-                                  color: Color(0xFF40BEEE),
-                                  elevation: 2.0,
-                                  child: SizedBox(
-                                    width: 150.0,
-                                    height: 50.0,
-                                    child: Center(
-                                      child: Text(
-                                        "Diagnose Disease",
-                                        // style: ,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Image.asset(
-                          "images/doctor11.png",
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(width: 15.0),
-                      ],
+                          Image.asset(
+                            // "images/skin.png",
+                            "images/a/stethoscope.gif",
+
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          ),
+                          SizedBox(width: 15.0),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 30),
-                  Container(
-                    width: double.infinity,
+                  FlatButton(
                     height: 150.0,
-                    margin: EdgeInsets.symmetric(horizontal: 18.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: Color(0xFFDAF2FC),
+
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SkinPrediction()),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 15.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Do you have skin related\nsymptoms?",
-                                  // style: kTitleStyle,
-                                ),
-                                Spacer(),
-                                RaisedButton(
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SkinPrediction()),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    color: Colors
+                        .transparent, //set this opacity as per your requirement
+                    child: Container(
+                      width: double.infinity,
+                      height: 150.0,
+                      margin: EdgeInsets.symmetric(horizontal: 18.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Color(0xFFFCE38A),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 15.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Do you have skin related\nsymptoms?",
+                                    // style: kTitleStyle,
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
+                                  Spacer(),
+                                  Padding(
+                                    // padding: EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 1.0),
+                                    // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                    child: Text('Skin Disease Prediction'),
                                   ),
-                                  color: Color(0xFF40BEEE),
-                                  elevation: 2.0,
-                                  child: SizedBox(
-                                    width: 150.0,
-                                    height: 50.0,
-                                    child: Center(
-                                      child: Text(
-                                        "Skin Disease Prediction",
-                                        // style: ,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Image.asset(
-                          "images/skin.png",
-                          fit: BoxFit.contain,
-                          width: 100,
-                          height: 100,
-                        ),
-                        SizedBox(width: 15.0),
-                      ],
+                          Image.asset(
+                            // "images/skin.png",
+                            "images/a/microscope.gif",
+
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          ),
+                          SizedBox(width: 15.0),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 30),
-                  Container(
-                    width: double.infinity,
+                  FlatButton(
                     height: 150.0,
-                    margin: EdgeInsets.symmetric(horizontal: 18.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: Color(0xFFDAF2FC),
+
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HealthcampRegistrartion()),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 15.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Have you booked your\nappointment yet?",
-                                  // style: kTitleStyle,
-                                ),
-                                Spacer(),
-                                RaisedButton(
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyAppointment()),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    color: Colors
+                        .transparent, //set this opacity as per your requirement
+                    child: Container(
+                      width: double.infinity,
+                      height: 150.0,
+                      margin: EdgeInsets.symmetric(horizontal: 18.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Color(0xFFA8D8EA),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 15.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Have you registered for\nHealthcamp yet?",
+                                    // style: kTitleStyle,
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
+                                  Spacer(),
+                                  Padding(
+                                    // padding: EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                    child: Text('Register'),
                                   ),
-                                  color: Color(0xFF40BEEE),
-                                  elevation: 2.0,
-                                  child: SizedBox(
-                                    width: 150.0,
-                                    height: 50.0,
-                                    child: Center(
-                                      child: Text(
-                                        "View Appointments",
-                                        // style: ,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Image.asset(
-                          "images/calendar.png",
-                          fit: BoxFit.contain,
-                          width: 100,
-                          height: 100,
-                        ),
-                        SizedBox(width: 15.0),
-                      ],
+                          Image.asset(
+                            // "images/skin.png",
+                            "images/a/notebook.gif",
+
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          ),
+                          SizedBox(width: 15.0),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: 30),
-                  Container(
-                    width: double.infinity,
+                  SizedBox(height: 30), //0xFFAA96DA
+                  FlatButton(
                     height: 150.0,
-                    margin: EdgeInsets.symmetric(horizontal: 18.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: Color(0xFFDAF2FC),
+
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyRegistrations()),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 15.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Have you booked your\nappointment yet?",
-                                  // style: kTitleStyle,
-                                ),
-                                Spacer(),
-                                RaisedButton(
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            GeneralBookAppointment()),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    color: Colors
+                        .transparent, //set this opacity as per your requirement
+                    child: Container(
+                      width: double.infinity,
+                      height: 150.0,
+                      margin: EdgeInsets.symmetric(horizontal: 18.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Color(0xFFAA96DA),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 15.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "View your upcoming \nHealthcamp events",
+                                    // style: kTitleStyle,
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
+                                  Spacer(),
+                                  Padding(
+                                    // padding: EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                    child: Text('View'),
                                   ),
-                                  color: Color(0xFF40BEEE),
-                                  elevation: 2.0,
-                                  child: SizedBox(
-                                    width: 150.0,
-                                    height: 50.0,
-                                    child: Center(
-                                      child: Text(
-                                        "Book Appointments",
-                                        // style: ,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Image.asset(
-                          "images/calendar.png",
-                          fit: BoxFit.contain,
-                          width: 100,
-                          height: 100,
-                        ),
-                        SizedBox(width: 15.0),
-                      ],
+                          Image.asset(
+                            // "images/skin.png",
+                            "images/a/checklist.gif",
+
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          ),
+                          SizedBox(width: 15.0),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30), //0xFFE0F9B5
+                  FlatButton(
+                    height: 150.0,
+
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GeneralBookAppointment()),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    color: Colors
+                        .transparent, //set this opacity as per your requirement
+                    child: Container(
+                      width: double.infinity,
+                      height: 150.0,
+                      margin: EdgeInsets.symmetric(horizontal: 18.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Color(0xFFE0F9B5),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 15.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Have you booked your\n Appointment yet?",
+                                    // style: kTitleStyle,
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    // padding: EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                    child: Text('Book'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Image.asset(
+                            // "images/skin.png",
+                            "images/a/consultation.gif",
+
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          ),
+                          SizedBox(width: 15.0),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30), //0xFFFFD5CD
+                  FlatButton(
+                    height: 150.0,
+
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyAppointment()),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    color: Colors
+                        .transparent, //set this opacity as per your requirement
+                    child: Container(
+                      width: double.infinity,
+                      height: 150.0,
+                      margin: EdgeInsets.symmetric(horizontal: 18.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Color(0xFFFFD5CD),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 12.0,
+                                vertical: 15.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Have you registered for\nHealthcamp yet?",
+                                    // style: kTitleStyle,
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    // padding: EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                    child: Text('View'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Image.asset(
+                            // "images/skin.png",
+                            "images/a/calendar.gif",
+
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          ),
+                          SizedBox(width: 15.0),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 30),

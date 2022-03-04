@@ -5,18 +5,19 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:healthcareapp/global.dart';
 
-import '../homepage.dart';
+import '../../homepage.dart';
 
-class ViewBookings extends StatefulWidget {
+class ViewAppointmentBookings extends StatefulWidget {
   @override
   String appointmentId = "";
 
-  ViewBookings(this.appointmentId);
+  ViewAppointmentBookings(this.appointmentId);
 
-  _ViewBookingsState createState() => _ViewBookingsState(this.appointmentId);
+  _ViewAppointmentBookingsState createState() =>
+      _ViewAppointmentBookingsState(this.appointmentId);
 }
 
-class _ViewBookingsState extends State<ViewBookings> {
+class _ViewAppointmentBookingsState extends State<ViewAppointmentBookings> {
   String patientName = "";
   String patientMobile = "";
   String patientAddress = "";
@@ -25,7 +26,7 @@ class _ViewBookingsState extends State<ViewBookings> {
   String predictedResults = "";
   String _appointmentId = "";
 
-  _ViewBookingsState(String appointmentId) {
+  _ViewAppointmentBookingsState(String appointmentId) {
     _appointmentId = appointmentId;
     print("Appointment Id: " + _appointmentId);
   }

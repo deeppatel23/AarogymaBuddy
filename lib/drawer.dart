@@ -77,7 +77,7 @@ class _MyDrawerState extends State<MyDrawer> {
             },
           ),
           ListTile(
-            title: Text('Nearby PHCs'),
+            title: Text('Hospitals near me'),
             onTap: () => MapsLauncher.launchQuery('Hospitals near me'),
           ),
           ListTile(

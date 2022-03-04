@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './predict_disease.dart';
+import 'package:getwidget/getwidget.dart';
 
 class SelectSymptoms extends StatefulWidget {
   List<String> allSymptomsList;
@@ -57,18 +58,50 @@ class _SelectSymptomsState extends State<SelectSymptoms> {
           Expanded(
             child: ListView(
               children: _allSymptomsList.map((e) {
-                return CheckboxListTile(
-                    value: isSymptomSelected[_allSymptomsList.indexOf(e)],
-                    onChanged: (bool? newValue) {
-                      setState(() {
-                        newValue == true
-                            ? selectedSymptomsList.add(e)
-                            : selectedSymptomsList.remove(e);
-                        isSymptomSelected[_allSymptomsList.indexOf(e)] =
-                            !isSymptomSelected[_allSymptomsList.indexOf(e)];
-                      });
-                    },
-                    title: Text(e));
+                return
+                    // CheckboxListTile(
+                    //   // activeColor: Colors.white,
+                    //   selectedTileColor: Colors.red
+                    //   ti,
+                    //   checkColor: Colors.green,
+                    //   selected: true,
+                    //   value: isSymptomSelected[_allSymptomsList.indexOf(e)],
+                    //   onChanged: (bool? newValue) {
+                    //     setState(() {
+                    //       newValue == true
+                    //           ? selectedSymptomsList.add(e)
+                    //           : selectedSymptomsList.remove(e);
+                    //       isSymptomSelected[_allSymptomsList.indexOf(e)] =
+                    //           !isSymptomSelected[_allSymptomsList.indexOf(e)];
+                    //     });
+                    //   },
+                    //   title: Text(e),
+                    // );
+                    GFCheckboxListTile(
+                  size: 26,
+                  activeBgColor: Colors.green,
+                  activeBorderColor: Colors.blue,
+                  selected: true,
+                  customBgColor: Colors.yellow,
+                  activeIcon: Icon(
+                    Icons.check,
+                    size: 16,
+                    color: Colors.white,
+                  ),
+                  type: GFCheckboxType.circle,
+                  value: isSymptomSelected[_allSymptomsList.indexOf(e)],
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      newValue == true
+                          ? selectedSymptomsList.add(e)
+                          : selectedSymptomsList.remove(e);
+                      isSymptomSelected[_allSymptomsList.indexOf(e)] =
+                          !isSymptomSelected[_allSymptomsList.indexOf(e)];
+                    });
+                  },
+                  title: Text(e),
+                  inactiveIcon: null,
+                );
               }).toList(),
             ),
           ),

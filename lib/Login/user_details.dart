@@ -232,11 +232,22 @@ class _UserDetailsState extends State<UserDetails> {
                     onPressed: () {
                       validateAndUpload();
                     },
-                    icon: Icon(
-                      Icons.arrow_forward,
-                    ),
+                    // icon: Icon(
+                    icon: Image.asset('images/a/right-arrow.png'),
                   ),
                 ),
+                // ),
+                // RawMaterialButton(
+                //   onPressed: () {},
+                //   elevation: 2.0,
+                //   fillColor: Colors.white,
+                //   child: Icon(
+                //     Icons.pause,
+                //     size: 35.0,
+                //   ),
+                //   padding: EdgeInsets.all(15.0),
+                //   shape: CircleBorder(),
+                // )
               ],
             ),
           ),

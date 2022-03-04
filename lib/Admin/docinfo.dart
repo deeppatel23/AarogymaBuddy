@@ -118,7 +118,7 @@ class _DocInfoState extends State<DocInfo> {
                                         builder: (context) {
                                           return AlertDialog(
                                             title: const Text(
-                                                'Do u want to delete this doc'),
+                                                'Do you want to delete this doctor'),
                                             actions: [
                                               TextButton(
                                                 onPressed: () {

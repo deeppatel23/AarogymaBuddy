@@ -164,7 +164,7 @@ class _PatientInfoState extends State<PatientInfo> {
                                         builder: (context) {
                                           return AlertDialog(
                                             title: const Text(
-                                                "Do u want to delete this patient"),
+                                                "Do you want to delete this patient?"),
                                             actions: [
                                               TextButton(
                                                 onPressed: () {

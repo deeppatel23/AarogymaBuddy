@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
 import 'package:permission_handler/permission_handler.dart';
 import '../homepage.dart';
+import '../multilang.dart';
 
 class UserDetails extends StatefulWidget {
   @override
@@ -272,20 +273,45 @@ class _UserDetailsState extends State<UserDetails> {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final loc.LocationData _locationResult = await location.getLocation();
 
+    String firstNamehi = await translate(firstNameController.text, 'en', 'hi');
+    String firstNamegu = await translate(firstNameController.text, 'en', 'gu');
+
+    String lastNamehi = await translate(lastNameController.text, 'en', 'hi');
+    String lastNamegu = await translate(lastNameController.text, 'en', 'gu');
+
+    String emailhi = await translate(email.text, 'en', 'hi');
+    String emailgu = await translate(email.text, 'en', 'gu');
+
+    String statehi = await translate(selectedState.toString(), 'en', 'hi');
+    String stategu = await translate(selectedState.toString(), 'en', 'gu');
+
+    String cityhi = await translate(selectedCity.toString(), 'en', 'hi');
+    String citygu = await translate(selectedCity.toString(), 'en', 'gu');
+
     User currentUser = await auth.currentUser!;
     print("User id" + currentUser.uid);
     if (_formKey.currentState!.validate()) {
       _firestore.collection('users').doc(currentUser.uid).set({
         'firstName': firstNameController.text,
+        'firstNamehi': firstNamehi,
+        'firstNamegu': firstNamegu,
         'lastName': lastNameController.text,
+        'lastNamehi': lastNamehi,
+        'lastNamegu': lastNamegu,
         'mobile': currentUser.phoneNumber,
         'aadhar': aadhar.text,
         'email': email.text,
+        'emailhi': emailhi,
+        'emailgu': emailgu,
         'id': currentUser.uid,
         'latitude': _locationResult.latitude,
         'longitude': _locationResult.longitude,
         'state': selectedState,
+        'statehi': statehi,
+        'stategu': stategu,
         'city': selectedCity,
+        'cityhi': cityhi,
+        'citygu': citygu,
       }).then(
         (value) => Navigator.push(
           context,

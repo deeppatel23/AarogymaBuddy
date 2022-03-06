@@ -40,6 +40,7 @@ dependencies:
   location: ^4.3.0
   permission_handler: ^8.1.4+2
   getwidget: ^2.0.4
+  translator: ^0.1.7
 
   flutter:
     sdk: flutter

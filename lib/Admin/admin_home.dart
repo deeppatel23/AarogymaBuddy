@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healthcareapp/Admin/prediction_analysis.dart';
 import 'package:healthcareapp/Diagnosis/skin_prediction.dart';
 import 'package:healthcareapp/Login/register_user.dart';
 import 'package:healthcareapp/Login/welcome_screen.dart';
@@ -72,43 +73,55 @@ class _adminHomeState extends State<adminHome> {
         },
         child: Center(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextButton(
-                    onPressed: () {
-                      setState(() {
-                        getAppDetails();
-                        showDes = !showDes;
-                      });
-                    },
-                    child: const Text("ADMIN HOME PAGE")),
-                showDes == true
-                    ? Text(_appDescription == ""
-                        ? "App Description"
-                        : _appDescription)
-                    : Container(),
-                // TextButton(
-                //   onPressed: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => const SelectOrgan()),
-                //   ),
-                //   child: const Text("Select Organ"),
-                // ),
-                // TextButton(
-                //   onPressed: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => SkinPrediction()),
-                //   ),
-                //   child: const Text("Skin Disease Prediction"),
-                // ),
-                SizedBox(height: 30),
-                Container(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      getAppDetails();
+                      showDes = !showDes;
+                    });
+                  },
+                  child: const Text("ADMIN HOME PAGE")),
+              showDes == true
+                  ? Text(_appDescription == ""
+                      ? "App Description"
+                      : _appDescription)
+                  : Container(),
+              // TextButton(
+              //   onPressed: () => Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => const SelectOrgan()),
+              //   ),
+              //   child: const Text("Select Organ"),
+              // ),
+              // TextButton(
+              //   onPressed: () => Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => SkinPrediction()),
+              //   ),
+              //   child: const Text("Skin Disease Prediction"),
+              // ),
+              SizedBox(height: 30),
+              FlatButton(
+                height: 150.0,
+
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DocInfo()),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                color: Colors
+                    .transparent, //set this opacity as per your requirement
+                child: Container(
                   width: double.infinity,
                   height: 150.0,
                   margin: EdgeInsets.symmetric(horizontal: 18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    color: Color(0xFFDAF2FC),
+                    color: Color(0xFFF38181),
                   ),
                   child: Row(
                     children: [
@@ -122,38 +135,25 @@ class _adminHomeState extends State<adminHome> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "View Doctor's Info\n",
+                                "View Doctor Information",
                                 // style: kTitleStyle,
                               ),
                               Spacer(),
-                              RaisedButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DocInfo()),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                color: Color(0xFF40BEEE),
-                                elevation: 2.0,
-                                child: SizedBox(
-                                  width: 150.0,
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Text(
-                                      "Doctor info",
-                                      // style: ,
-                                    ),
-                                  ),
-                                ),
+                              Padding(
+                                // padding: EdgeInsets.all(16.0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 10.0),
+                                // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                child: Text('View'),
                               ),
                             ],
                           ),
                         ),
                       ),
                       Image.asset(
-                        "images/calendar.png",
+                        // "images/skin.png",
+                        "images/a/stethoscope.gif",
+
                         fit: BoxFit.contain,
                         width: 100,
                         height: 100,
@@ -162,14 +162,27 @@ class _adminHomeState extends State<adminHome> {
                     ],
                   ),
                 ),
-                SizedBox(height: 30),
-                Container(
+              ),
+              SizedBox(height: 30),
+              FlatButton(
+                height: 150.0,
+
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PatientInfo()),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                color: Colors
+                    .transparent, //set this opacity as per your requirement
+                child: Container(
                   width: double.infinity,
                   height: 150.0,
                   margin: EdgeInsets.symmetric(horizontal: 18.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    color: Color(0xFFDAF2FC),
+                    color: Color(0xFFFCE38A),
                   ),
                   child: Row(
                     children: [
@@ -183,38 +196,25 @@ class _adminHomeState extends State<adminHome> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "View Patient's Info\n",
+                                "View Patient Information",
                                 // style: kTitleStyle,
                               ),
                               Spacer(),
-                              RaisedButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PatientInfo()),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                ),
-                                color: Color(0xFF40BEEE),
-                                elevation: 2.0,
-                                child: SizedBox(
-                                  width: 150.0,
-                                  height: 50.0,
-                                  child: Center(
-                                    child: Text(
-                                      "Patient Info",
-                                      // style: ,
-                                    ),
-                                  ),
-                                ),
+                              Padding(
+                                // padding: EdgeInsets.all(16.0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 1.0),
+                                // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                child: Text('View'),
                               ),
                             ],
                           ),
                         ),
                       ),
                       Image.asset(
-                        "images/calendar.png",
+                        // "images/skin.png",
+                        "images/a/hospitalisation.png",
+
                         fit: BoxFit.contain,
                         width: 100,
                         height: 100,
@@ -223,7 +223,71 @@ class _adminHomeState extends State<adminHome> {
                     ],
                   ),
                 ),
-              ]),
+              ),
+              SizedBox(height: 30),
+              FlatButton(
+                height: 150.0,
+
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PredictionAnalysis()),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                color: Colors
+                    .transparent, //set this opacity as per your requirement
+                child: Container(
+                  width: double.infinity,
+                  height: 150.0,
+                  margin: EdgeInsets.symmetric(horizontal: 18.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    color: Color(0xFFFFD5CD),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 15.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "View Prediction Analysis\n",
+                                // style: kTitleStyle,
+                              ),
+                              Spacer(),
+                              Padding(
+                                // padding: EdgeInsets.all(16.0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 10.0),
+                                // padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0);
+                                child: Text('View'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Image.asset(
+                        // "images/skin.png",
+                        "images/a/prediction.png",
+
+                        fit: BoxFit.contain,
+                        width: 100,
+                        height: 100,
+                      ),
+                      SizedBox(width: 15.0),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );

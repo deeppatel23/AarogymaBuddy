@@ -61,11 +61,15 @@ class _PredictDiseaseState extends State<PredictDisease> {
                       final allDiseases = snapshot.data!.docs;
                       List<Widget> predictedDiseases = [];
                       for (var disease in allDiseases) {
-                        for (var symptom in disease.get("symptoms")) {
+                        for (var symptom
+                            in disease.get("symptoms" + selectedLang)) {
                           if (selectedSymptomsList.contains(symptom)) {
-                            priorityMap[disease.id] =
-                                priorityMap.containsKey(disease.id)
-                                    ? priorityMap[disease.id]! + 1
+                            priorityMap[disease['disease' + selectedLang]] =
+                                priorityMap.containsKey(
+                                        disease['disease' + selectedLang])
+                                    ? priorityMap[disease[
+                                            'disease' + selectedLang]]! +
+                                        1
                                     : 1;
                           }
                         }

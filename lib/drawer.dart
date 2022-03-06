@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthcareapp/Chatbot/chatbot.dart';
+import 'package:healthcareapp/Login/view_profile.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -43,10 +44,10 @@ class _MyDrawerState extends State<MyDrawer> {
           ListTile(
             title: Text('Edit Profile'),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => NewsPage()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ViewProfile()),
+              );
             },
           ),
           ListTile(

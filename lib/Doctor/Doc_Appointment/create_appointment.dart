@@ -21,10 +21,16 @@ class _CreateAppointmentState extends State<CreateAppointment> {
   TextEditingController totalSeats = TextEditingController();
 
   String name = "";
+  String namehi = "";
+  String namegu = "";
   String email = "";
   String mobile = "";
   String address = "";
+  String addresshi = "";
+  String addressgu = "";
   String speciality = "";
+  String specialityhi = "";
+  String specialitygu = "";
   String experience = "";
   String fee = "";
   String image = "";
@@ -144,10 +150,16 @@ class _CreateAppointmentState extends State<CreateAppointment> {
     final doc =
         await FirebaseFirestore.instance.collection('doctor').doc(uid).get();
     name = doc['name'];
+    namehi = doc['namehi'];
+    namegu = doc['namegu'];
     email = doc['email'];
     mobile = doc['mobile'];
     address = doc['address'];
+    addresshi = doc['addresshi'];
+    addressgu = doc['addressgu'];
     speciality = doc['speciality'];
+    specialityhi = doc['specialityhi'];
+    specialitygu = doc['specialitygu'];
     experience = doc['experience'];
     fee = doc['fee'];
     image = doc['image'];
@@ -201,10 +213,16 @@ class _CreateAppointmentState extends State<CreateAppointment> {
       'totalBooking': 0,
       'doctorId': currentUid,
       'doctorName': name,
+      'doctorNamehi': namehi,
+      'doctorNamegu': namegu,
       'doctorEmail': email,
       'doctorMobile': mobile,
       'doctorAddress': address,
+      'doctorAddresshi': addresshi,
+      'doctorAddressgu': addressgu,
       'doctorSpeciality': speciality,
+      'doctorSpecialityhi': specialityhi,
+      'doctorSpecialitygu': specialitygu,
       'doctorExperience': experience,
       'doctorFee': fee,
     }).then(

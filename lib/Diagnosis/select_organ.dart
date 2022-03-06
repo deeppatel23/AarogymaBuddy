@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healthcareapp/global.dart';
 import './select_symptoms.dart';
 import './predict_disease.dart';
 
@@ -23,8 +24,8 @@ class _SelectOrganState extends State<SelectOrgan> {
         .get();
     List<DocumentSnapshot> list = qn.docs;
     for (var i = 0; i < list.length; i++) {
-      for (var j = 0; j < list[i].get("symptoms").length; j++) {
-        allSymptoms.add(list[i].get("symptoms")[j]);
+      for (var j = 0; j < list[i].get("symptoms" + selectedLang).length; j++) {
+        allSymptoms.add(list[i].get("symptoms" + selectedLang)[j]);
       }
     }
     Navigator.push(
@@ -64,7 +65,8 @@ class _SelectOrganState extends State<SelectOrgan> {
                   child: Column(
                     children: <Widget>[
                       ListTile(
-                        title: Text(document.get("name").toString()),
+                        title: Text(
+                            document.get("name" + selectedLang).toString()),
                         onTap: () {
                           getAllSymptoms(document.id);
                           // Navigator.push(

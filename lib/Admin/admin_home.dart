@@ -51,7 +51,7 @@ class _adminHomeState extends State<adminHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appName == "" ? "App Name" : _appName),
+        title: Text("Healthcare Admin"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.logout),

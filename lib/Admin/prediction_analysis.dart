@@ -13,8 +13,19 @@ class _PredictionAnalysisState extends State<PredictionAnalysis> {
   Map<String, int> _dataFromDisease = {};
   List<String> provincesList = ['Rajkot', 'Ahemdabad', 'Baroda'];
   List<String> diseasesList = [
+    'Cataract',
+    'Conjunctivitis',
+    'Diabetic Retinopathy',
+    'Dry eye Syndrome',
+    'Eye Strain',
+    'Glaucoma',
+    'Night Blindness',
+    'Refractive Errors',
     'Heart disease symptoms caused by heart infection(endocardium)',
-    'Cataract'
+    'atherosclerosis(buildup of fatty plaques in your arteries)',
+    'cardiomyopathy',
+    'heart disease caused by heart defects',
+    'valvular heart disease',
   ];
   String? selectedCity;
   String? selectedDisease;

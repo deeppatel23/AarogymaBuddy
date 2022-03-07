@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthcareapp/Appointment/book_appointment.dart';
 import 'package:healthcareapp/global.dart';
 import 'package:healthcareapp/homepage.dart';
+import 'package:healthcareapp/multilang.dart';
 
 class PredictDisease extends StatefulWidget {
   final List<String> finalSymptoms;
@@ -211,8 +212,10 @@ class _PredictDiseaseState extends State<PredictDisease> {
       "organId": _organId,
       "organName": _organName,
       "timestamp": Timestamp.now(),
-      "predictedDisease": priorityMap.keys.elementAt(0).toString(),
-      "predictedDisease2": priorityMap.keys.elementAt(1).toString(),
+      "predictedDisease": await translate(
+          priorityMap.keys.elementAt(0).toString(), selectedLang, "en"),
+      "predictedDisease2": await translate(
+          priorityMap.keys.elementAt(1).toString(), selectedLang, "en"),
       "patientId": currentUid,
       "patientState": _patientState,
       "patientCity": _patientCity,

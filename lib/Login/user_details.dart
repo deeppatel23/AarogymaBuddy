@@ -234,7 +234,7 @@ class _UserDetailsState extends State<UserDetails> {
                       validateAndUpload();
                     },
                     // icon: Icon(
-                    icon: Image.asset('images/a/right-arrow.png'),
+                    icon: Image.asset('images/a/right-arrow.gif'),
                   ),
                 ),
                 // ),

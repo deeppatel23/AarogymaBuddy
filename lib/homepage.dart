@@ -422,7 +422,7 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Have you registered for\nHealthcamp yet?",
+                                    "View your upcoming\nappointments",
                                     // style: kTitleStyle,
                                   ),
                                   Spacer(),

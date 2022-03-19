@@ -39,6 +39,13 @@ class _LoginState extends State<Login> {
       print(doc.data());
       print(doc.exists);
       if (doc.exists) {
+        patientFirstName = doc.data()!['firstName'];
+        patientLastName = doc.data()!['lastName'];
+        patientEmail = doc.data()!['email'];
+        patientMobile = doc.data()!['mobile'];
+        patientAadhar = doc.data()!['aadhar'];
+        patientState = doc.data()!['state'];
+        patientCity = doc.data()!['city'];
         return true;
       } else {
         return false;

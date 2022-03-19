@@ -88,6 +88,8 @@ class _CardContainer extends StatelessWidget {
     required this.card,
   }) : super(key: key);
 
+  get globalBackgroundColor => null;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -141,7 +143,7 @@ class _CardContainer extends StatelessWidget {
                           return TextButton(
                             style: TextButton.styleFrom(
                               primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              backgroundColor: globalBackgroundColor,
                             ),
                             child: Text(button.text ?? ''),
                             onPressed: () {

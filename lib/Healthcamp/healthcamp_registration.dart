@@ -56,6 +56,7 @@ class _HealthcampRegistrartionState extends State<HealthcampRegistrartion> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Healthcamp Registration'),
+          backgroundColor: globalBackgroundColor,
         ),
         body: Column(
           children: [
@@ -85,80 +86,94 @@ class _HealthcampRegistrartionState extends State<HealthcampRegistrartion> {
                         healthcampAddress = document['campAddress'];
                         healthcampDescription = document['description'];
                         mode = document['mode'];
+                        if (mode) {
+                          healthcampAddress = "Zoom";
+                        }
 
                         return Center(
-                          child: Container(
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.blue[100]),
-                              child: Column(children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.2,
-                                  height:
-                                      MediaQuery.of(context).size.height / 4,
-                                  child: Text("\n Doctor: " +
-                                      healthcampDoctor +
-                                      "\n Date : " +
-                                      healthcampDate +
-                                      "\n Start Time : " +
-                                      healthcampStartTime +
-                                      "\n End Time : " +
-                                      healthcampEndTime +
-                                      "\n Address : " +
-                                      healthcampAddress +
-                                      "\n Description : " +
-                                      healthcampDescription +
-                                      "\n remaining seats : " +
-                                      healthcampRemainingSeats.toString() +
-                                      // "\n mode: " +
-                                      // mode.toString() +
-                                      '\n'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                                'Confirm your registration'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Booking(
-                                                    document.id,
-                                                    document['doctorName'],
-                                                    document[
-                                                        'doctorSpeciality'],
-                                                    document['date'].toString(),
-                                                    document['startTime']
-                                                        .toString(),
-                                                    document['endTime']
-                                                        .toString(),
-                                                    document['description'],
-                                                    document['campAddress'],
-                                                    document['mode'],
-                                                  );
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text('Confirm'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Cancel'),
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  },
-                                  child: const Text("Register"),
-                                )
-                              ])),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color:
+                                              Color.fromARGB(255, 72, 175, 235),
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1))
+                                    ]),
+                                child: Column(children: [
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    height:
+                                        MediaQuery.of(context).size.height / 4,
+                                    child: Text("\n Doctor: " +
+                                        healthcampDoctor +
+                                        "\n Date : " +
+                                        healthcampDate +
+                                        "\n Start Time : " +
+                                        healthcampStartTime +
+                                        "\n End Time : " +
+                                        healthcampEndTime +
+                                        "\n Address : " +
+                                        healthcampAddress +
+                                        "\n Description : " +
+                                        healthcampDescription +
+                                        "\n Remaining seats : " +
+                                        healthcampRemainingSeats.toString() +
+                                        // "\n mode: " +
+                                        // mode.toString() +
+                                        '\n'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Confirm your registration'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Booking(
+                                                      document.id,
+                                                      document['doctorName'],
+                                                      document[
+                                                          'doctorSpeciality'],
+                                                      document['date']
+                                                          .toString(),
+                                                      document['startTime']
+                                                          .toString(),
+                                                      document['endTime']
+                                                          .toString(),
+                                                      document['description'],
+                                                      document['campAddress'],
+                                                      document['mode'],
+                                                    );
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('Confirm'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Cancel'),
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    child: const Text("Register"),
+                                  )
+                                ])),
+                          ),
                         );
                       }).toList(),
                     );
@@ -184,7 +199,7 @@ class _HealthcampRegistrartionState extends State<HealthcampRegistrartion> {
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
     name = doc['firstName'];
     mobile = doc['mobile'];
-    address = doc['address'];
+    address = doc['city'];
   }
 
   void Booking(

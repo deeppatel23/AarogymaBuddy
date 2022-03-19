@@ -24,6 +24,7 @@ class _MyAppointmentState extends State<MyAppointment> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('My Appointment'),
+          backgroundColor: globalBackgroundColor,
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -48,31 +49,40 @@ class _MyAppointmentState extends State<MyAppointment> {
                       document['doctorSpeciality'].toString();
 
                   return Center(
-                    child: Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue[100]),
-                        child: Column(children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 1.2,
-                            height: MediaQuery.of(context).size.height / 6,
-                            child: Text("\nDate : " +
-                                appointmentDate +
-                                '\n' +
-                                "\n Start Time : " +
-                                appointmentStartTime +
-                                "\n End Time : " +
-                                appointmentEndTime +
-                                "\n Doctor : " +
-                                appointmentDoctor +
-                                '\n' +
-                                " Doctor Speciality : " +
-                                appointmentDoctorSpeciality +
-                                '\n'),
-                          ),
-                        ])),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromARGB(255, 72, 175, 235),
+                                    blurRadius: 5,
+                                    offset: Offset(0, 1))
+                              ]),
+                          child: Column(children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              height: MediaQuery.of(context).size.height / 6,
+                              child: Text("\nDate : " +
+                                  appointmentDate +
+                                  '\n' +
+                                  "\n Start Time : " +
+                                  appointmentStartTime +
+                                  "\n End Time : " +
+                                  appointmentEndTime +
+                                  "\n Doctor : " +
+                                  appointmentDoctor +
+                                  '\n' +
+                                  " Doctor Speciality : " +
+                                  appointmentDoctorSpeciality +
+                                  '\n'),
+                            ),
+                          ])),
+                    ),
                   );
                 }).toList(),
               );

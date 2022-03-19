@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:healthcareapp/global.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -73,12 +74,12 @@ class _SkinPredictionState extends State<SkinPrediction> {
           "Skin Disease Predictor",
           style: TextStyle(color: Colors.white, fontSize: 23),
         ),
-        backgroundColor: Color.fromRGBO(14, 49, 80, 1),
+        backgroundColor: globalBackgroundColor,
         elevation: 0,
       ),
       body: Container(
           // color: Colors.yellow[50],
-          color: Color.fromRGBO(224, 140, 255, 0.2),
+          color: Color.fromARGB(255, 170, 222, 247),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Container(

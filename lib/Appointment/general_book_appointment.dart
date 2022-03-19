@@ -26,7 +26,7 @@ int appointmentRemainingSeats = 0;
 
 String name = "";
 String mobile = "";
-String address = "";
+String city = "";
 
 class _GeneralBookAppointmentState extends State<GeneralBookAppointment> {
   // String _organName = "";
@@ -52,6 +52,7 @@ class _GeneralBookAppointmentState extends State<GeneralBookAppointment> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Book Appointment'),
+          backgroundColor: globalBackgroundColor,
         ),
         body: Column(
           children: [
@@ -80,69 +81,79 @@ class _GeneralBookAppointmentState extends State<GeneralBookAppointment> {
                             document['doctorSpeciality'];
 
                         return Center(
-                          child: Container(
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.blue[100]),
-                              child: Column(children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.2,
-                                  height:
-                                      MediaQuery.of(context).size.height / 6,
-                                  child: Text("\n Doctor: " +
-                                      appointmentDoctor +
-                                      "\n Date : " +
-                                      appointmentDate +
-                                      "\n Start Time : " +
-                                      appointmentStartTime +
-                                      "\n End Time : " +
-                                      appointmentEndTime +
-                                      "\n Total Seats : " +
-                                      appointmentRemainingSeats.toString() +
-                                      '\n'),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                                'Confirm your appointment'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Booking(
-                                                      document.id,
-                                                      document['doctorName'],
-                                                      document[
-                                                          'doctorSpeciality'],
-                                                      document['date']
-                                                          .toString(),
-                                                      document['startTime']
-                                                          .toString(),
-                                                      document['endTime']
-                                                          .toString());
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text('Confirm'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('Cancel'),
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  },
-                                  child: const Text("Book Appointment"),
-                                )
-                              ])),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color:
+                                              Color.fromARGB(255, 72, 175, 235),
+                                          blurRadius: 5,
+                                          offset: Offset(0, 1))
+                                    ]),
+                                child: Column(children: [
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    height:
+                                        MediaQuery.of(context).size.height / 6,
+                                    child: Text("\n Doctor: " +
+                                        appointmentDoctor +
+                                        "\n Date : " +
+                                        appointmentDate +
+                                        "\n Start Time : " +
+                                        appointmentStartTime +
+                                        "\n End Time : " +
+                                        appointmentEndTime +
+                                        "\n Total Seats : " +
+                                        appointmentRemainingSeats.toString() +
+                                        '\n'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  'Confirm your appointment'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Booking(
+                                                        document.id,
+                                                        document['doctorName'],
+                                                        document[
+                                                            'doctorSpeciality'],
+                                                        document['date']
+                                                            .toString(),
+                                                        document['startTime']
+                                                            .toString(),
+                                                        document['endTime']
+                                                            .toString());
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('Confirm'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Cancel'),
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    child: const Text("Book Appointment"),
+                                  )
+                                ])),
+                          ),
                         );
                       }).toList(),
                     );
@@ -168,7 +179,7 @@ class _GeneralBookAppointmentState extends State<GeneralBookAppointment> {
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
     name = doc['firstName'];
     mobile = doc['mobile'];
-    address = doc['address'];
+    city = doc['city'];
   }
 
   void Booking(String appId, String docName, String docSpeciality,
@@ -183,7 +194,7 @@ class _GeneralBookAppointmentState extends State<GeneralBookAppointment> {
           .set({
         'patientName': name,
         'patientMobile': mobile,
-        'patientAddress': address,
+        'patientAddress': city,
         'patientId': currentUid,
         'doctorName': docName,
         'appointmentId': appId,

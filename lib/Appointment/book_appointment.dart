@@ -23,7 +23,7 @@ int appointmentRemainingSeats = 0;
 
 String name = "";
 String mobile = "";
-String address = "";
+String city = "";
 
 class _BookAppointmentState extends State<BookAppointment> {
   String _organName = "";
@@ -49,6 +49,7 @@ class _BookAppointmentState extends State<BookAppointment> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Book Appointment'),
+          backgroundColor: globalBackgroundColor,
         ),
         body: Column(
           children: [
@@ -77,12 +78,21 @@ class _BookAppointmentState extends State<BookAppointment> {
                             document['doctorSpeciality'];
 
                         return Center(
-                          child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
                               padding: EdgeInsets.all(10),
                               margin: EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.blue[100]),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color:
+                                            Color.fromARGB(255, 72, 175, 235),
+                                        blurRadius: 5,
+                                        offset: Offset(0, 1))
+                                  ]),
                               child: Column(children: [
                                 Container(
                                   width:
@@ -139,7 +149,9 @@ class _BookAppointmentState extends State<BookAppointment> {
                                   },
                                   child: const Text("Book Appointment"),
                                 )
-                              ])),
+                              ]),
+                            ),
+                          ),
                         );
                       }).toList(),
                     );
@@ -165,7 +177,7 @@ class _BookAppointmentState extends State<BookAppointment> {
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
     name = doc['firstName'];
     mobile = doc['mobile'];
-    address = doc['address'];
+    city = doc['city'];
   }
 
   void Booking(String appId, String docName, String docSpeciality,
@@ -180,7 +192,7 @@ class _BookAppointmentState extends State<BookAppointment> {
           .set({
         'patientName': name,
         'patientMobile': mobile,
-        'patientAddress': address,
+        'patientAddress': city,
         'patientId': currentUid,
         'doctorName': docName,
         'appointmentId': appId,

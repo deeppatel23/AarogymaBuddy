@@ -50,6 +50,7 @@ class _SelectOrganState extends State<SelectOrgan> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Select Organ"),
+        backgroundColor: globalBackgroundColor,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('diagnosis').snapshots(),
@@ -61,29 +62,41 @@ class _SelectOrganState extends State<SelectOrgan> {
           } else {
             return ListView(
               children: snapshot.data!.docs.map((document) {
-                return Container(
-                  child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(
-                            document.get("name" + selectedLang).toString()),
-                        onTap: () {
-                          getAllSymptoms(document.id);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           PredictDisease(allSymptoms)),
-                          // );
-                        },
-                        leading: Image(
-                          image: AssetImage('images/organs/' +
-                              document.get("name").toString() +
-                              '.png'),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(
+                              document.get("name" + selectedLang).toString()),
+                          onTap: () {
+                            getAllSymptoms(document.id);
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) =>
+                            //           PredictDisease(allSymptoms)),
+                            // );
+                          },
+                          leading: Image(
+                            image: AssetImage('images/organs/' +
+                                document.get("name").toString() +
+                                '.png'),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 15),
-                    ],
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color.fromARGB(255, 72, 175, 235),
+                              blurRadius: 5,
+                              offset: Offset(0, 1))
+                        ]),
                   ),
                 );
               }).toList(),

@@ -10,19 +10,24 @@ class ViewProfile extends StatefulWidget {
 
 class _ViewProfileState extends State<ViewProfile> {
   String firstName = "";
+  String firstNameen = "";
   String firstNamehi = "";
   String firstNamegu = "";
   String lastName = "";
+  String lastNameen = "";
   String lastNamehi = "";
   String lastNamegu = "";
   String email = "";
+  String emailen = "";
   String emailhi = "";
   String emailgu = "";
   String mobile = "";
   String state = "";
+  String stateen = "";
   String statehi = "";
   String stategu = "";
   String city = "";
+  String cityen = "";
   String cityhi = "";
   String citygu = "";
   String aadhar = "";
@@ -33,24 +38,47 @@ class _ViewProfileState extends State<ViewProfile> {
     final doc =
         await FirebaseFirestore.instance.collection("users").doc(uid).get();
     setState(() {
-      firstName = doc['firstName'];
+      firstNameen = doc['firstName'];
       firstNamehi = doc['firstNamehi'];
       firstNamegu = doc['firstNamegu'];
-      lastName = doc['lastName'];
+      lastNameen = doc['lastName'];
       lastNamehi = doc['lastNamehi'];
       lastNamegu = doc['lastNamegu'];
-      email = doc['email'];
+      emailen = doc['email'];
       emailhi = doc['emailhi'];
       emailgu = doc['emailgu'];
       mobile = doc['mobile'];
-      state = doc['state'];
+      stateen = doc['state'];
       statehi = doc['statehi'];
       stategu = doc['stategu'];
-      city = doc['city'];
+      cityen = doc['city'];
       cityhi = doc['cityhi'];
       citygu = doc['citygu'];
       aadhar = doc['aadhar'];
-      print(firstName);
+      print(firstNameen);
+
+      if (selectedLang == "") {
+        selectedLang = "";
+        firstName = firstNameen;
+        lastName = lastNameen;
+        email = emailen;
+        state = stateen;
+        city = cityen;
+      } else if (selectedLang == "hi") {
+        selectedLang = "hi";
+        firstName = firstNamehi;
+        lastName = lastNamehi;
+        email = emailhi;
+        state = statehi;
+        city = cityhi;
+      } else if (selectedLang == "gu") {
+        selectedLang = "gu";
+        firstName = firstNamegu;
+        lastName = lastNamegu;
+        email = emailgu;
+        state = stategu;
+        city = citygu;
+      }
     });
   }
 
@@ -66,15 +94,80 @@ class _ViewProfileState extends State<ViewProfile> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
+        backgroundColor: globalBackgroundColor,
       ),
-      body: Center(
-          child: Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage("images/patient.png"),
+            ),
+          ),
+          SizedBox(height: 20),
+          Text(
+            "First Name: " + firstName,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "Last Name: " + lastName,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "Email: $email",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "Mobile: $mobile",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "State: " + state,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "City: " + city,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "Aadhar: $aadhar",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: DropdownButton<String>(
               borderRadius: BorderRadius.circular(10),
-              hint: Text('Select City'),
+              hint: Text('Select Language'),
               value: selectedLang == ""
                   ? "English"
                   : selectedLang == "hi"
@@ -92,41 +185,32 @@ class _ViewProfileState extends State<ViewProfile> {
                   print(lang.toString());
                   if (lang.toString() == "English") {
                     selectedLang = "";
+                    firstName = firstNameen;
+                    lastName = lastNameen;
+                    email = emailen;
+                    state = stateen;
+                    city = cityen;
                   } else if (lang.toString() == "Hindi") {
                     selectedLang = "hi";
+                    firstName = firstNamehi;
+                    lastName = lastNamehi;
+                    email = emailhi;
+                    state = statehi;
+                    city = cityhi;
                   } else if (lang.toString() == "Gujarati") {
                     selectedLang = "gu";
+                    firstName = firstNamegu;
+                    lastName = lastNamegu;
+                    email = emailgu;
+                    state = stategu;
+                    city = citygu;
                   }
                 });
               },
             ),
           ),
-          SizedBox(height: 20),
-          Text(selectedLang == "hi"
-              ? firstNamehi
-              : selectedLang == "gu"
-                  ? firstNamegu
-                  : firstName),
-          Text(selectedLang == "hi"
-              ? lastNamehi
-              : selectedLang == "gu"
-                  ? lastNamegu
-                  : lastName),
-          Text("Email: $email"),
-          Text("Mobile: $mobile"),
-          Text(selectedLang == "hi"
-              ? statehi
-              : selectedLang == "gu"
-                  ? stategu
-                  : state),
-          Text(selectedLang == "hi"
-              ? cityhi
-              : selectedLang == "gu"
-                  ? citygu
-                  : city),
-          Text("Aadhar: $aadhar"),
         ],
-      )),
+      ),
     );
   }
 }

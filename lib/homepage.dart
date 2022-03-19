@@ -13,6 +13,7 @@ import 'package:healthcareapp/Healthcamp/healthcamp_registration.dart';
 import 'package:healthcareapp/Healthcamp/my_registrations.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:healthcareapp/global.dart';
 
 import 'Diagnosis/select_organ.dart';
 
@@ -55,8 +56,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF1FAB89),
-        title: Text(_appName == "" ? "App Name" : _appName),
+        backgroundColor: globalBackgroundColor,
+        title: Text("Aarogyam Buddy"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.logout),
@@ -272,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MyRegistrations()),
+                          builder: (context) => MyHealthcampRegistrations()),
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),

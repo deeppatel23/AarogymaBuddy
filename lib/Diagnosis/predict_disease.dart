@@ -42,6 +42,7 @@ class _PredictDiseaseState extends State<PredictDisease> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Predict Disease"),
+          backgroundColor: globalBackgroundColor,
           automaticallyImplyLeading: false,
         ),
         body: Column(

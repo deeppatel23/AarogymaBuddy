@@ -20,12 +20,13 @@ Future<void> _launchInBrowser(String url) async {
   }
 }
 
-class MyRegistrations extends StatefulWidget {
+class MyHealthcampRegistrations extends StatefulWidget {
   @override
-  _MyRegistrationsState createState() => _MyRegistrationsState();
+  _MyHealthcampRegistrationsState createState() =>
+      _MyHealthcampRegistrationsState();
 }
 
-class _MyRegistrationsState extends State<MyRegistrations> {
+class _MyHealthcampRegistrationsState extends State<MyHealthcampRegistrations> {
   Future<void>? _launched;
   String healthcampDate = "";
   String healthcampStartTime = "";
@@ -42,6 +43,7 @@ class _MyRegistrationsState extends State<MyRegistrations> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('My Registrations'),
+          backgroundColor: globalBackgroundColor,
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -71,98 +73,107 @@ class _MyRegistrationsState extends State<MyRegistrations> {
                       document['doctorSpeciality'].toString();
 
                   return Center(
-                    child: Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue[100]),
-                        child: Column(children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 1.2,
-                            height: MediaQuery.of(context).size.height / 5,
-                            child: Text("\nDate : " +
-                                healthcampDate +
-                                '\n' +
-                                "\n Start Time : " +
-                                healthcampStartTime +
-                                "\n End Time : " +
-                                healthcampEndTime +
-                                // "\n Address: " +
-                                // healthcampAddress +
-                                "\n Description : " +
-                                healthcampDescription +
-                                "\n Doctor : " +
-                                healthcampDoctor +
-                                '\n' +
-                                " Doctor Speciality : " +
-                                healthcampDoctorSpeciality +
-                                '\n'),
-                          ),
-                          if (mode)
-                            ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            "Do u want to join this seminar?"),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              print(
-                                                  "PRESSEDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-                                              _launched = _launchInBrowser(
-                                                  healthcampLink);
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('Confirm'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Cancel'),
-                                          )
-                                        ],
-                                      );
-                                    });
-                              },
-                              child: const Text("Attend Online"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromARGB(255, 72, 175, 235),
+                                    blurRadius: 5,
+                                    offset: Offset(0, 1))
+                              ]),
+                          child: Column(children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              height: MediaQuery.of(context).size.height / 5,
+                              child: Text("\nDate : " +
+                                  healthcampDate +
+                                  '\n' +
+                                  "\n Start Time : " +
+                                  healthcampStartTime +
+                                  "\n End Time : " +
+                                  healthcampEndTime +
+                                  // "\n Address: " +
+                                  // healthcampAddress +
+                                  "\n Description : " +
+                                  healthcampDescription +
+                                  "\n Doctor : " +
+                                  healthcampDoctor +
+                                  '\n' +
+                                  " Doctor Speciality : " +
+                                  healthcampDoctorSpeciality +
+                                  '\n'),
                             ),
-                          if (!mode)
-                            ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                            "Do u want to check healthcamp's address? "),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              MapsLauncher.launchQuery(
-                                                  healthcampAddress);
+                            if (mode)
+                              ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                              "Do u want to join this seminar?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                print(
+                                                    "PRESSEDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+                                                _launched = _launchInBrowser(
+                                                    healthcampLink);
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('Confirm'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Cancel'),
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
+                                child: const Text("Attend Online"),
+                              ),
+                            if (!mode)
+                              ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                              "Do u want to check healthcamp's address? "),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                MapsLauncher.launchQuery(
+                                                    healthcampAddress);
 
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('Confirm'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Cancel'),
-                                          )
-                                        ],
-                                      );
-                                    });
-                              },
-                              child: const Text("Location"),
-                            ),
-                        ])),
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text('Confirm'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Cancel'),
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
+                                child: const Text("Location"),
+                              ),
+                          ])),
+                    ),
                   );
                 }).toList(),
               );

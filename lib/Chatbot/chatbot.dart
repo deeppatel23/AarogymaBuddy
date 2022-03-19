@@ -1,5 +1,6 @@
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcareapp/global.dart';
 import 'package:healthcareapp/homepage.dart';
 
 import 'chatbot_body.dart';
@@ -51,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chatbot'),
+        backgroundColor: globalBackgroundColor,
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),

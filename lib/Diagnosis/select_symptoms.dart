@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:healthcareapp/global.dart';
 import './predict_disease.dart';
 import 'package:getwidget/getwidget.dart';
 
@@ -52,6 +53,7 @@ class _SelectSymptomsState extends State<SelectSymptoms> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Select Symptoms"),
+        backgroundColor: globalBackgroundColor,
       ),
       body: Column(
         children: [
@@ -77,30 +79,44 @@ class _SelectSymptomsState extends State<SelectSymptoms> {
                     //   },
                     //   title: Text(e),
                     // );
-                    GFCheckboxListTile(
-                  size: 26,
-                  activeBgColor: Colors.green,
-                  activeBorderColor: Colors.blue,
-                  selected: true,
-                  customBgColor: Colors.yellow,
-                  activeIcon: Icon(
-                    Icons.check,
-                    size: 16,
-                    color: Colors.white,
+                    Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: GFCheckboxListTile(
+                      size: 26,
+                      activeBgColor: Colors.green,
+                      activeBorderColor: Colors.blue,
+                      selected: true,
+                      customBgColor: Colors.yellow,
+                      activeIcon: Icon(
+                        Icons.check,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                      type: GFCheckboxType.circle,
+                      value: isSymptomSelected[_allSymptomsList.indexOf(e)],
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          newValue == true
+                              ? selectedSymptomsList.add(e)
+                              : selectedSymptomsList.remove(e);
+                          isSymptomSelected[_allSymptomsList.indexOf(e)] =
+                              !isSymptomSelected[_allSymptomsList.indexOf(e)];
+                        });
+                      },
+                      title: Text(e),
+                      inactiveIcon: null,
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color.fromARGB(255, 72, 175, 235),
+                              blurRadius: 5,
+                              offset: Offset(0, 1))
+                        ]),
                   ),
-                  type: GFCheckboxType.circle,
-                  value: isSymptomSelected[_allSymptomsList.indexOf(e)],
-                  onChanged: (bool? newValue) {
-                    setState(() {
-                      newValue == true
-                          ? selectedSymptomsList.add(e)
-                          : selectedSymptomsList.remove(e);
-                      isSymptomSelected[_allSymptomsList.indexOf(e)] =
-                          !isSymptomSelected[_allSymptomsList.indexOf(e)];
-                    });
-                  },
-                  title: Text(e),
-                  inactiveIcon: null,
                 );
               }).toList(),
             ),

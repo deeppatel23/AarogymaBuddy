@@ -10,7 +10,9 @@ class PredictionAnalysis extends StatefulWidget {
 
 class _PredictionAnalysisState extends State<PredictionAnalysis> {
   Map<String, int> _dataFromCity = {};
+  String resFromCity = "";
   Map<String, int> _dataFromDisease = {};
+  String resFromDisease = "";
   List<String> provincesList = ['Rajkot', 'Ahemdabad', 'Baroda'];
   List<String> diseasesList = [
     'Cataract',
@@ -48,16 +50,24 @@ class _PredictionAnalysisState extends State<PredictionAnalysis> {
               setState(() {
                 bool contain = _dataFromCity.containsKey(
                     element.data()['organName'] +
+                        " - " +
                         element.data()['predictedDisease']);
                 if (contain) {
                   int? temp = _dataFromCity[element.data()['organName'] +
+                      " - " +
                       element.data()['predictedDisease']];
                   _dataFromCity[element.data()['organName'] +
+                      " - " +
                       element.data()['predictedDisease']] = temp! + 1;
                 } else {
                   _dataFromCity[element.data()['organName'] +
+                      " - " +
                       element.data()['predictedDisease']] = 1;
                 }
+                resFromCity = _dataFromCity.toString();
+                resFromCity = resFromCity.replaceAll("{", "");
+                resFromCity = resFromCity.replaceAll("}", "");
+                resFromCity = resFromCity.replaceAll(",", "\n\n");
               });
               // _data.containsKey(element.data()['organName'] +
               //         element.data()['predictedDisease'])
@@ -71,6 +81,11 @@ class _PredictionAnalysisState extends State<PredictionAnalysis> {
             }));
 
     print(_dataFromCity);
+    resFromCity = _dataFromCity.toString();
+    resFromCity = resFromCity.replaceAll('{', '');
+    resFromCity = resFromCity.replaceAll("}", "");
+    resFromCity = resFromCity.replaceAll(",", "\n\n");
+    print("Res modified" + resFromCity);
   }
 
   void _getDataFromDisease(String disease) async {
@@ -91,9 +106,17 @@ class _PredictionAnalysisState extends State<PredictionAnalysis> {
               });
 
               print(element.data()['patientCity']);
+              resFromDisease = _dataFromDisease.toString();
+              resFromDisease = resFromDisease.replaceAll("{", "");
+              resFromDisease = resFromDisease.replaceAll("}", "");
+              resFromDisease = resFromDisease.replaceAll(",", "\n\n");
             }));
 
     print(_dataFromDisease);
+    resFromDisease = _dataFromDisease.toString();
+    resFromDisease = resFromDisease.replaceAll("{", "");
+    resFromDisease = resFromDisease.replaceAll("}", "");
+    resFromDisease = resFromDisease.replaceAll(",", "\n\n");
   }
 
   @override
@@ -133,8 +156,14 @@ class _PredictionAnalysisState extends State<PredictionAnalysis> {
                   });
                 },
                 child: Text("Show Result")),
-            Container(
-              child: Text(_dataFromCity.toString()),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Text(
+                  resFromCity,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -164,8 +193,14 @@ class _PredictionAnalysisState extends State<PredictionAnalysis> {
                   });
                 },
                 child: Text("Show Result")),
-            Container(
-              child: Text(_dataFromDisease.toString()),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Text(
+                  resFromDisease,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             )
           ],
         ),

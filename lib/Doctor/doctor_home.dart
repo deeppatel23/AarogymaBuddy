@@ -53,7 +53,7 @@ class _doctorHomeState extends State<doctorHome> {
           ),
         ],
       ),
-      drawer: MyDrawer(),
+      // drawer: MyDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {});

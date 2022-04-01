@@ -65,7 +65,7 @@ class _adminHomeState extends State<adminHome> {
           ),
         ],
       ),
-      drawer: MyDrawer(),
+      // drawer: MyDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
           await getAppDetails();

@@ -21,6 +21,7 @@ class _SkinPredictionState extends State<SkinPrediction> {
   var image;
   final ImagePicker _picker = ImagePicker();
   String res = "";
+  List<dynamic> resArr = ["", "", "", "", "", ""];
 
   String _value = "";
   // ignore: unused_element
@@ -60,6 +61,11 @@ class _SkinPredictionState extends State<SkinPrediction> {
     res = respStr;
     setState(() {
       res = respStr;
+      res = res.replaceAll("{", "");
+      res = res.replaceAll("}", "");
+      res = res.replaceAll("\"", "");
+      resArr = res.split(",");
+      print("Resarr" + resArr.toString());
     });
     storeResults();
     // print("res : " + Post.fromJson(json.decode()).toString());
@@ -135,7 +141,20 @@ class _SkinPredictionState extends State<SkinPrediction> {
                         ),
                         res == "loading"
                             ? CircularProgressIndicator()
-                            : Text(res),
+                            : Text(
+                                resArr[0] +
+                                    " -> " +
+                                    resArr[3] +
+                                    '\n\n' +
+                                    resArr[1] +
+                                    " -> " +
+                                    resArr[4] +
+                                    '\n\n' +
+                                    resArr[2] +
+                                    " -> " +
+                                    resArr[5],
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01,
                         ),

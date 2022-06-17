@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:location/location.dart' as loc;
-import 'package:permission_handler/permission_handler.dart';
+import 'package:location/location.dart';
+// import 'package:permission_handler/permission_handler.dart';
+import '../global.dart';
 import '../homepage.dart';
 import '../multilang.dart';
 
@@ -34,9 +36,10 @@ class _UserDetailsState extends State<UserDetails> {
   @override
   void initState() {
     super.initState();
-    _requestPermission();
-    location.changeSettings(interval: 300, accuracy: loc.LocationAccuracy.high);
-    location.enableBackgroundMode(enable: true);
+    // await _requestPermission();
+    // _initLocationService();
+    // location.changeSettings(interval: 300, accuracy: loc.LocationAccuracy.high);
+    // location.enableBackgroundMode(enable: true);
   }
 
   @override
@@ -172,7 +175,12 @@ class _UserDetailsState extends State<UserDetails> {
                     },
                   ),
                 ),
-
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: ElevatedButton(child: Text("Get Location"), onPressed: () {
+                    _initLocationService();
+                  },), 
+                ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: DropdownButton<String>(
@@ -257,16 +265,39 @@ class _UserDetailsState extends State<UserDetails> {
     );
   }
 
-  _requestPermission() async {
-    var status = await Permission.location.request();
-    if (status.isGranted) {
-      print('done');
-    } else if (status.isDenied) {
-      _requestPermission();
-    } else if (status.isPermanentlyDenied) {
-      openAppSettings();
+  // _requestPermission() async {
+  //   var status = await Permission.location.request();
+  //   if (status.isGranted) {
+  //     print('done');
+  //   } else if (status.isDenied) {
+  //     _requestPermission();
+  //   } else if (status.isPermanentlyDenied) {
+  //     openAppSettings();
+  //   }
+  // }
+
+  Future _initLocationService() async {
+  var location = Location();
+
+  var _serviceEnabled = await location.serviceEnabled();
+  if (!_serviceEnabled) {
+    _serviceEnabled = await location.requestService();
+    if (!_serviceEnabled) {
+        return;
     }
   }
+  var permission = await location.hasPermission();
+  if (permission == PermissionStatus.denied) {
+    permission = await location.requestPermission();
+    if (permission != PermissionStatus.granted) {
+      return;
+    }
+  }
+
+  var loc = await location.getLocation();
+  print("${loc.latitude} ${loc.longitude}");
+}
+  
 
   void validateAndUpload() async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -288,7 +319,21 @@ class _UserDetailsState extends State<UserDetails> {
     String cityhi = await translate(selectedCity.toString(), 'en', 'hi');
     String citygu = await translate(selectedCity.toString(), 'en', 'gu');
 
+   
     User currentUser = await auth.currentUser!;
+    String? mobile = currentUser.phoneNumber;
+
+     setState(() {
+          patientFirstName = firstNameController.text;
+          patientLastName = lastNameController.text;
+          patientEmail = email.text;
+          patientMobile = mobile.toString();
+          patientAadhar = aadhar.text;
+          patientState = selectedState!;
+          patientCity = selectedCity!;
+        });
+
+
     print("User id" + currentUser.uid);
     if (_formKey.currentState!.validate()) {
       _firestore.collection('users').doc(currentUser.uid).set({
